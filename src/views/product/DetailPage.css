@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+}
+
+.contain-detail-book {
+  padding-top: 20px;
+  padding-left: 200px;
+  padding-right: 200px;
+  right: 0;
+  left: 0;
+}
+
+.flex-container-1 {
+    display: flex;
+    height: 450px;
+    margin: 0;
+  }
+  #left-container-1 {
+      flex-grow: 2.5;
+      float: left;
+      padding-right: 10px;
+      margin: 0;
+      width: 20%;
+      max-width: 300px;
+  }
+  #middle-container-1 {
+    flex-grow: 5;
+    width: 40%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  #right-container-1 {
+    flex-grow: 2.5;
+    padding-left: 30px;
+  }
+
+  .share-container {
+    padding-top: 20px;
+  }
+
+  img.share-icon {
+    position: relative;
+    top: 8px;
+  }
+
+  .book-title {
+    width: 60%;
+    font-weight: 400;
+    vertical-align: text-top;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: normal;
+    font-stretch: normal;
+    font-size: 27px;
+    line-height: 1.25;
+  }
+
+#middle-container-1 h2 {
+  padding-top: 15px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+.content div {
+    display: inline;
+    padding-left: 200px;
+    padding-right: 200px;
+
+}
+
+.content-book {
+  padding-left: 200px;
+  padding-right: 200px;
+  right: 0;
+  left: 0;
+}
+
+.tab {
+    margin-top: 50px;
+    overflow: hidden;
+    border-bottom: groove ;
+    border-bottom-width: 1px;
+    display: flex;
+  }
+
+  
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 19px;
+    padding: 10px 80px 20px 80px;
+  }
+  
+  .tab button:hover {
+    color: rgba(94, 94, 99, 0.808);
+  }
+  
+  .tab button.active {
+    border-bottom: 2px solid rgb(8, 8, 235);
+    border-width: thin;
+  }
+
+  #Deskripsi {
+    display: block;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+  }
+  
+  #Detail {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-bottom: groove ;
+    border-bottom-width: 1px;
+    border-top: none;
+  }
+
+.box-price {
+  background: #e8eaf6;
+  border: 1px solid #7986cb;
+  border-radius: 5px;
+}
+
+.box-content {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  margin-left: 10px;
+}
+
+.box-content-1 {
+  justify-content: space-around;
+}
+
+#box-content-text {
+  width: 100%;
+  display: flex;
+  justify-content:space-between; 
+}
+
+.box-price-text-1 {
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.text-i {
+  display: inline-grid;
+  text-align: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  border: 2px solid #011a5c;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 19px;
+  position: relative;
+  font-weight: bold;
+  top: 7px;
+  right: 20px;
+}
+
+
+.box-price-text-2 {
+  padding-top: 30px;
+  color: #e61e64;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: left;
+}
+
+
+.btn-beli {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #281e5a;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-family: Karla;
+    font-size: 16px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.btn-wishlist {
+  margin-top: 30px;
+  height: 41px;
+  width: 100%;
+  background-color: #b4b4b4;
+  border-radius: 5px;
+  color: #fff;
+  font-family: Karla,sans-serif;
+  font-size: 16px;
+  border: 1px solid #b4b4b4;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.text-i-2 {
+  text-align: right;
+  display: inline-grid;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 2px solid #91130a;
+  color: #91130a;
+  font-weight: bolder;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 17px;
+  position: relative;
+  text-align: center;
+}
+
+.asurance-info {
+  margin-top: 25px;
+  padding-top: 10px;
+  border-top: groove ;
+  border-top-width: 1px;
+}
+
+#img-asurance {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding-right: 20px;
+  top: 4px;
+  object-fit: contain;
+}
+
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  width : 80%;
+  max-width : 300px;
+  height: 80%;
+}
+
+#myImg:hover {
+  opacity: 0.7;
+  z-index: -1;
+}
+/* The Modal (background) */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2; 
+  padding-top: 10px;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.9); 
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}

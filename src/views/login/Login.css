@@ -1,0 +1,13 @@
+#form {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+}
+#form-login {
+    padding: 30px;
+    width: 660px;
+    height: 283px;
+    border-radius: 8px;
+    border: solid 2px orange;
+    background-color: #ffffff;
+}

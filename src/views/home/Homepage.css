@@ -1,0 +1,25 @@
+#about-us div{
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.842);
+    border: 3px solid orange;
+    padding: 10px 1px;
+    margin: 20px 20px 20px 20px;
+}
+
+#about-us p.about-us2{
+    font-size:  40px;
+    color: white
+
+}
+
+#about-us p.about-us3{
+    font-size:  35px;
+    color: white
+
+}
+
+#about-us p.about-us4{
+    font-size: 18px;
+    line-height: 4ex;
+    color: white
+}

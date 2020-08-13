@@ -1,0 +1,12 @@
+#cartSummary {
+    background: #f8cc06;
+    padding: 20px 40px;
+    min-width: 50px;
+    margin-left: 20px;
+    margin-right: 1210px;
+}
+
+#cartList {
+    width: 1200px;
+    padding: 20px 40px;
+}

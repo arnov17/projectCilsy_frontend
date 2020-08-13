@@ -1,0 +1,13 @@
+#form {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+#form-reg {
+    padding: 30px;
+    width: 660px;
+    height: 383px;
+    border-radius: 8px;
+    border: solid 2px orange;
+    background-color: #ffffff;
+}

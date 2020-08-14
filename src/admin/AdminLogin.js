@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
 import { withRouter } from "react-router";
 
 const LogInAdmin = (props) => {
@@ -39,7 +38,7 @@ const LogInAdmin = (props) => {
         <div>
             <form>
                     <div className="form-group">
-                        <h1>Log in Admin</h1>
+                        <h2>Log in Admin</h2>
                         <label>Email</label>
                         <input type="email" className="form-control" id="inputEmail" placeholder="Your Email"
                         value={FormData.email} onChange={(event) => handleSignUpChange(event, 'email')}/>
@@ -50,8 +49,6 @@ const LogInAdmin = (props) => {
                         value={FormData.password} onChange={(event) => handleSignUpChange(event, 'password')}/>
                     </div>
                     <button type="submit" className="btn btn-primary" onClick={checkInput} >Log in</button>
-                <button type="submit" className="btn btn-warning"><Link to='/register'>Register</Link></button>
-
             </form>
         </div>
     )

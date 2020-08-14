@@ -13,7 +13,7 @@ const NavbarStyled = styled.div`
   ul {
     display: flex;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 1000px;
     justify-content: space-between;
     list-style-type: none;
   }
@@ -21,7 +21,7 @@ const NavbarStyled = styled.div`
   li {
     padding: 1rem 2rem 1.15rem;
     text-transform: uppercase;
-    color: white;
+    color: black;
     min-width: 80px;
     margin: auto;
   }

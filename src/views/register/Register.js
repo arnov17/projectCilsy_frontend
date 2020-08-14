@@ -34,48 +34,54 @@ const Signup = (props) => {
     }
 
   return (
-    <div id="form">
-    <Form id="form-reg" className="m-4">
-      <Form.Group controlId="formBasicName">
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter name"
-          value={formRegister.name} onChange={(event) => handleChangeFormRegister(event, 'name')}
-        />
-      </Form.Group>
+    <div>
+      <div id="headline">
+        <h2>Form Register</h2>
+      </div>
 
-      <Form.Group controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter username"
-          value={formRegister.username} onChange={(event) => handleChangeFormRegister(event, 'username')}
-        />
-      </Form.Group>
+      <div id="form">
+        <Form id="form-reg" className="m-4">
+          <Form.Group controlId="formBasicName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter name"
+              value={formRegister.name} onChange={(event) => handleChangeFormRegister(event, 'name')}
+              />
+          </Form.Group>
 
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          value={formRegister.password} onChange={(event) => handleChangeFormRegister(event, 'password')}
-        />
-      </Form.Group>
-      <Link to="/">
-        <Button
-            variant="primary"
-            disabled={isValiadation ? false : true}
-            onClick={() =>
-            signup({ name: formRegister.name, username: formRegister.username, password: formRegister.password, saldo: formRegister.saldo })
-            }
-        >
-            Submit
-        </Button>
-      </Link>
-      <br />
-      Already have an account? <Link to="/">Sign in</Link>
-    </Form>
+          <Form.Group controlId="formBasicUsername">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter username"
+              value={formRegister.username} onChange={(event) => handleChangeFormRegister(event, 'username')}
+              />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={formRegister.password} onChange={(event) => handleChangeFormRegister(event, 'password')}
+            />
+          </Form.Group>
+          <Link to="/">
+            <Button
+                variant="primary"
+                disabled={isValiadation ? false : true}
+                onClick={() =>
+                  signup({ name: formRegister.name, username: formRegister.username, password: formRegister.password, saldo: formRegister.saldo })
+                }
+            >
+                Submit
+            </Button>
+          </Link>
+          <br />
+          Already have an account? <Link to="/">Sign in</Link>
+        </Form>
+      </div>
     </div>
   );
 };

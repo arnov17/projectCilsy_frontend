@@ -1,28 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext} from "react";
 import "../../App.css";
-import { Button} from "react-bootstrap";
 import numeral from "numeral";
-import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
+import Footer from "../../components/footer/Footer"
 import { getBookById } from "../../redux/action/globalActionType";
-import { addToCart } from "../../redux/action/globalActionType"
+// import { addToCart } from "../../redux/action/globalActionType"
 import { connect } from "react-redux";
+import {DataContext} from '../../context/DataContext'
 import "./DetailPage.css"
 
 const BookDetailPage = (props) => {
   console.log(props)
   const { id } = props.match.params;
-  const { book, addToCart } = props;
+  const { book } = props;
 
   useEffect(() => {
     props.getBookById(id);
   }, []);
 
+const {dataContext, setDataContext} = useContext(DataContext)
+const addToCart = id => {
+  let carts = dataContext ? dataContext.carts : [];
+  const index = carts.findIndex((val) => val.id === id)
+  if (index >= 0) {
+    carts[index].qty = carts[index].qty + 1
+  }
+  else if (book.id === id) {
+    carts.push({...book, qty: 1})
+  }
+  console.log(carts)
+  setDataContext({
+    ...dataContext,
+    carts
+  })
+}
+
   return (
     <div className="App">
         <Link to="/product" style={{ cursor: "pointer" }}>
-          <Button className="primary">Back</Button>
-                      {/* <h2>&larr;</h2> */}
+                      <h2>&larr;</h2>
         </Link>
         <section class="contain-detail-book">
                 <div class="flex-container-1">
@@ -45,10 +61,10 @@ const BookDetailPage = (props) => {
 
                   <div id="middle-container-1">
                       <span class="book-title">
-                        <h1> {book.title}</h1>
+                        <h2> {book.title}</h2>
                       </span>
 
-                    <h2>Author : {book.authorName}</h2>
+                    <h4>Author : {book.authorName}</h4>
 
                     <div class="tab">
                         <button class="tablinks active" onclick="openTabs(event, 'Deskripsi')">Deskripsi</button>
@@ -77,9 +93,9 @@ const BookDetailPage = (props) => {
                           </div>
                       </div>
                       <div class="btn">
-                          <button class="btn-wishlist" onClick={() => addToCart(book)}>ADD WISHLIST</button>
+                          <button class="btn-wishlist" onClick={() => addToCart(book.id)}>ADD WISHLIST</button>
                           <Link to="/cart">
-                            <button class="btn-beli" onClick={() => addToCart(book)}>BUY NOW</button>
+                            <button class="btn-beli" onClick={() => addToCart(book.id)}>BUY NOW</button>
                           </Link>
                       </div>
 
@@ -89,8 +105,8 @@ const BookDetailPage = (props) => {
                   </div>
         </div>
 
-    </section>
-    <script src="./index.js"></script>
+      </section>
+      <Footer/>
     </div>
   );
 };
@@ -105,7 +121,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getBookById: (id) => dispatch(getBookById(id)),
-    addToCart: (book) => dispatch(addToCart(book)),
+    // addToCart: (book) => dispatch(addToCart(book)),
   };
 };
 

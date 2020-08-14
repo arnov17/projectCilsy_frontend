@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 // import "../../App.css";
 import Book from "../components/adminComponent/AdminComponent"
-
+import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { getListBook, updateBook, deleteBook } from "../redux/action/globalActionType"
 
@@ -23,7 +23,11 @@ const SetBookPage = (props) => {
     <div className="App">
       <header className="App-header">
         <div className="container m-3">
-          <h2>Redux-books, Item on cart: {props.bookInCart.length}</h2>
+          <h2 style={{color : "black"}}>books List</h2>
+          <LinkContainer to="/admin/addBook" style={{ cursor: "pointer" }}>
+                {/* <h2>&larr;</h2> */}
+                <button>Submit New Book</button>
+          </LinkContainer>
         </div>
         <div className="container">
           <div className="row">

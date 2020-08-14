@@ -41,7 +41,12 @@ const Signin = (props) => {
 }
 
   return (
-    <div id="form">
+    <div>
+      <div id="headline">
+        <h2>Welcome to Cilsy Bookstore</h2>
+      </div>
+
+      <div id="form">
         <Form id="form-login"className="m-4">
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Username</Form.Label>
@@ -50,7 +55,7 @@ const Signin = (props) => {
               placeholder="Your Username"
               value={FormData.username} 
               onChange={(event) => handleSignUpChange(event, 'username')}
-            />
+              />
           </Form.Group>
     
           <Form.Group controlId="formBasicPassword">
@@ -60,18 +65,19 @@ const Signin = (props) => {
               placeholder="Your Password"
               value={FormData.password} 
               onChange={(event) => handleSignUpChange(event, 'password')}
-            />
+              />
           </Form.Group>
     
           <Button
             variant="primary"
             onClick={() => {signin({ username: FormData.username, password: FormData.password }); checkInput()} }
-          >
+            >
             Sign in
           </Button>
           <br />
           Don't have an account? please, <Link to="/signup">Sign up</Link>
         </Form>
+      </div>
     </div>
     );
 };

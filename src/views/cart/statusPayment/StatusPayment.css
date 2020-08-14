@@ -1,0 +1,14 @@
+#payment div{
+    text-align: center;
+    background-color: rgba(85, 194, 12, 0.842);
+    border: 1px solid rgb(31, 29, 26);
+    padding: 10px 1px;
+    margin: 100px 400px 20px 400px;
+}
+
+#payment p.teks{
+    margin-top: 10px;
+    font-size:  40px;
+    color: white
+
+}

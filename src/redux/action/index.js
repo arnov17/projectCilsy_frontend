@@ -9,6 +9,7 @@ export {
     addToCart,
     handlePlus,
     handleMinus,
-    PriceCart
+    PriceCart,
+    updateSaldo
   } from "./globalActionType";
   

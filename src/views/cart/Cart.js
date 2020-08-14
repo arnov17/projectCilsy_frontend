@@ -1,29 +1,52 @@
-import React, { useState }  from 'react'
-// import Button from '../../components/button/buttonAddToCart'
+import React, {useContext} from 'react'
 import { connect } from "react-redux";
-import { withRouter, Link, useHistory } from "react-router-dom";
-import {Table, Button, Card} from 'react-bootstrap'
+import { Link } from "react-router-dom";
+import {Table, Button} from 'react-bootstrap'
+import Footer from "../../components/footer/Footer";
 import numeral from "numeral";
-import {handleMinus, handlePlus, PriceCart} from "../../redux/action"
+import {PriceCart} from "../../redux/action"
+import {DataContext} from '../../context/DataContext'
 import './Cart.css'
 
-
 const Cart = (props) => {
-  console.log(props)
-  // console.log(props.bookInCart)
+  // console.log(props)
 
-  const totalAllProduct = props.bookInCart.reduce((a, b) => a + (b.price * props.totalOrder), 0)
+  const {dataContext, setDataContext} = useContext(DataContext)
+  // console.log(dataContext.carts);
 
-  // const DeleteListCart = (id) => {
-  //   let listcart = props.bookInCart
-  //   const deleteList = props.bookInCart((val) => val.id !== id) {
-  //   listcart = deleteList
-  //   }
-  // }
+  const DeleteListCart = (id) => {
+    const deleteList = dataContext && dataContext.carts.filter((val) => val.id !== id)
+    console.log(deleteList)
+    setDataContext({carts : [...deleteList]})
+    }
+
+  const handleChangeQty = (e, id) => {
+    const findProduct = dataContext && dataContext.carts.find((val) => val.id === id)
+    findProduct.qty = e.target.value
+    setDataContext({...dataContext})
+  }
+
+  const handleAjustQty = (type, id) => {
+    const findProduct = dataContext && dataContext.carts.find((val) => val.id === id)
+    const qty = type === '+' ? findProduct.qty + 1 :  findProduct.qty - 1
+    findProduct.qty = qty
+    setDataContext({...dataContext})
+  }
+
+  const minusOrder = (id) => {
+    const findProduct = dataContext && dataContext.carts.find((val) => val.id === id)
+    const qty = findProduct.qty > 1 ? findProduct.qty - 1 : findProduct.qty - 0
+    findProduct.qty = qty
+    setDataContext({...dataContext})
+  }
+
+  const totalAllProduct = dataContext 
+  ? dataContext.carts.reduce((a, b) => a + (b.price * b.qty), 0)
+  : 0
 
   return (
     <div>
-      {props.bookInCart.length === 0 ? (
+      {!dataContext === 0 ? (
         <div>
           <h1>The Cart still Empty, Please Select The Book From Product List</h1>
           <h2>Thank You</h2>
@@ -31,7 +54,7 @@ const Cart = (props) => {
       ) : (
         <div>
 
-      <h2>Daftar Keranjang</h2>
+      <h3>Shopping List</h3>
             <div id="cartList">
               <Table striped bordered hover>
                 <thead>
@@ -41,29 +64,28 @@ const Cart = (props) => {
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Subtotal</th>
-                    <th></th>
+                    <th>Delete List</th>
                   </tr>
                 </thead>
                 <tbody>
-                {props.bookInCart && props.bookInCart.map((val, key) => {
-                  const subtotal = props.totalOrder * val.price
-                  // console.log(val)
+                {dataContext && dataContext.carts.map((val, key) => {
+                  const subtotal = val.qty * val.price
+                  console.log(val)
                     return (
                       <tr key={key}>
                         <td>{key + 1}</td>
                         <td>{val.title}</td>
                         <td>
-                        <button onClick={() => props.handleMinus(val.id)}>-</button>
-                        <p>{val.qty}</p>
-                          <input 
-                            value={val.qty} 
-                            // onChange={(e) => handleChangeQty(e, val.id)}
-                          />
-                        <button onClick={() => props.handlePlus(val.id)}>+</button>
+                        <button onClick={() => minusOrder(val.id)}>-</button>
+                        <input 
+                          value={val.qty} 
+                          onChange={(e) => handleChangeQty(e, val.id)}
+                        />
+                        <button onClick={() => handleAjustQty('+', val.id)}>+</button>
                         </td>
                         <td>{`Rp ${numeral(val.price).format("0,0")}`}</td>
                         <td>{`Rp ${numeral(subtotal).format("0,0")}`}</td>
-                        <td><Button variant="danger">Delete</Button> </td>
+                        <td onClick={() => DeleteListCart(val.id)}><Button variant="danger">Delete</Button> </td>
                       </tr>
                     )
                 })}
@@ -71,7 +93,7 @@ const Cart = (props) => {
               </Table>
             </div>
 
-            <h2>Number of carts : {props.bookInCart.length}</h2>
+            <h5>Total of carts : {dataContext.carts.length}</h5>
           
 
           <div id="cartSummary">
@@ -87,6 +109,7 @@ const Cart = (props) => {
             </Link>
           </div>
 
+          <Footer/>
         </div>
       )}
     </div>
@@ -95,18 +118,12 @@ const Cart = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    books: state.bookReducer.books,
-    bookInCart: state.bookReducer.booksInCart,
-    totalOrder : state.bookReducer.totalOrder
   };
 };
 
 const mapDiscpacthProps = (dispatch) => {
   return {
-      handlePlus : (bookId) => dispatch(handlePlus(bookId)),
-      handleMinus : (bookId) => dispatch(handleMinus(bookId)),
       PriceCart : (data) => dispatch(PriceCart(data))
-
   }
 }
 

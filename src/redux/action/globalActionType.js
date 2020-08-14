@@ -30,6 +30,13 @@ export const PriceCart = (data) => {
   }
 }
 
+export const updateSaldo = (data) => {
+  return {
+    type : actionTypes.UPDATE_BOOK,
+    payload : data
+  }
+}
+
 export const addToCart = (book) => {
   // console.log("actionTypes.ADD_TO_CART", actionTypes.ADD_TO_CART);
   return {

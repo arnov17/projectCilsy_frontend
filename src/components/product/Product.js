@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import { Card, Button, FormControl, Form } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { withRouter } from "react-router-dom";
 import numeral from "numeral";
 
 import { connect } from "react-redux";
-import { addToCart } from "../../redux/action/globalActionType"
+// import { addToCart } from "../../redux/action/globalActionType"
+import {DataContext} from '../../context/DataContext'
 import "./Product.css"
 
 const Book = (props) => {
-  const { book, addToCart } = props;
+  const { book } = props;
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -25,6 +26,26 @@ const Book = (props) => {
       publicationDate: new Date(),
     });
   }, []);
+
+// console.log(book)
+// mengunakan context
+const {dataContext, setDataContext} = useContext(DataContext)
+const addToCart = id => {
+  let carts = dataContext ? dataContext.carts : [];
+  const index = carts.findIndex((val) => val.id === id)
+  if (index >= 0) {
+    carts[index].qty = carts[index].qty + 1
+  }
+  else if (book.id === id) {
+    carts.push({...book, qty: 1})
+  }
+  // console.log(carts)
+  setDataContext({
+    ...dataContext,
+    carts
+  })
+}
+  
 
   return (
     <div id="cartProduct"className="col-md-4">
@@ -47,7 +68,7 @@ const Book = (props) => {
             <h4 className="font-weight-bold" style={{ color: "#8052ff" }}>
               {`Rp ${numeral(book.price).format("0,0")}`}
             </h4>
-          <Button onClick={() => addToCart(book)}>Add to cart</Button>
+          <Button onClick={() => addToCart(book.id)}>Add to cart</Button>
         </Card.Body>
       </Card>
     </div>
@@ -60,10 +81,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addToCart: (book) => dispatch(addToCart(book)),
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addToCart: (book) => dispatch(addToCart(book)),
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Book));
+export default connect(mapStateToProps, 
+  // mapDispatchToProps
+  )(withRouter(Book));

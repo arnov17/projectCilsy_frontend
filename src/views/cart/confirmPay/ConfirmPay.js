@@ -2,6 +2,9 @@ import React from 'react'
 import { connect } from "react-redux";
 import numeral from "numeral";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
+import {updateSaldo} from "../../../redux/action"
+import {Card, Button} from 'react-bootstrap'
 
 
 const PayConfirm = (props) => {
@@ -10,19 +13,28 @@ const PayConfirm = (props) => {
         if(props.signedUser[0].saldo < props.PriceCart.totalAllProduct) {
             alert('Your Balance is not enought')
         } else if(props.signedUser[0].saldo >= props.PriceCart.totalAllProduct) {
-            // props.signedUser[0].saldo - props.PriceCart.totalAllProduct
             props.history.push('/payconfirm/statusPayment')
+            console.log(props.signedUser[0].saldo - props.PriceCart.totalAllProduct)
         }
     }
-
     
     return (
         <div>
-            <h2>Payment Confirm</h2>
-            <h3>saldo kamu : {`Rp ${numeral(props.signedUser[0].saldo).format("0,0")}`}</h3>
-            <h3>total chekcout : {`Rp ${numeral(props.PriceCart.totalAllProduct).format("0,0")}`}</h3>
-
-            <button type="submit" className="btn btn-primary" onClick={checkPayment} >Payment</button>
+            <div className="container m-3">
+                <Link to="/cart" style={{ cursor: "pointer" }}>
+                        <h2>&larr;</h2>
+                </Link>
+                <Card>
+                    <Card.Header as="h5">Payment Confirm</Card.Header>
+                    <Card.Body>
+                        <Card.Title>Total Price : {`Rp ${numeral(props.PriceCart.totalAllProduct).format("0,0")}`}</Card.Title>
+                        <Card.Text>
+                        Your Balance : {`Rp ${numeral(props.signedUser[0].saldo).format("0,0")}`}
+                        </Card.Text>
+                        <Button variant="primary" onClick={checkPayment}>Payment</Button>
+                    </Card.Body>
+                </Card>
+            </div>
         </div>
     )
 }
@@ -34,5 +46,11 @@ const mapStateToProps = (state) => {
       PriceCart : state.bookReducer.PriceCart
     };
   };
+
+const mapDiscpacthProps = (dispatch) => {
+    return {
+        updateSaldo : (data) => dispatch(updateSaldo(data))
+    }
+  }
   
-  export default connect(mapStateToProps)(withRouter(PayConfirm))
+  export default connect(mapStateToProps, mapDiscpacthProps)(withRouter(PayConfirm))

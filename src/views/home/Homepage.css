@@ -23,3 +23,8 @@
     line-height: 4ex;
     color: white
 }
+
+#home img{
+    width: 100%;
+    height: 680px;
+}

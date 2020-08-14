@@ -4,6 +4,7 @@ import Book from "../../components/product/Product"
 
 import { connect } from "react-redux";
 import { getListBook} from "../../redux/action/globalActionType"
+import Footer from "../../components/footer/Footer"
 
 const BookPage = (props) => {
   // console.log(props)
@@ -15,7 +16,7 @@ const BookPage = (props) => {
     <div className="App">
       <header className="App-header">
         <div className="container m-3">
-          <h1>List Book</h1>
+          <h1>Book List</h1>
         </div>
         <div className="container">
           <div className="row">
@@ -29,6 +30,7 @@ const BookPage = (props) => {
           </div>
         </div>
       </header>
+      <Footer/>
     </div>
   );
 };

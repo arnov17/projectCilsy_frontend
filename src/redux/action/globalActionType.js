@@ -4,38 +4,38 @@ import { ENDPOINT, access_token } from "../../utils/global/index";
 
 export const signin = (data) => {
   return {
-    type : actionTypes.SIGNIN,
-    payload : data
-  }
-}
+    type: actionTypes.SIGNIN,
+    payload: data,
+  };
+};
 
 export const signup = (data) => {
   return {
-    type : actionTypes.SIGNUP,
-    payload : data
-  }
-}
+    type: actionTypes.SIGNUP,
+    payload: data,
+  };
+};
 
 export const signout = () => {
   return {
-    type : actionTypes.SIGNOUT,
-    payload : null
-  }
-}
+    type: actionTypes.SIGNOUT,
+    payload: null,
+  };
+};
 
 export const PriceCart = (data) => {
   return {
-    type : actionTypes.PRICE_CART,
-    payload : data
-  }
-}
+    type: actionTypes.PRICE_CART,
+    payload: data,
+  };
+};
 
 export const updateSaldo = (data) => {
   return {
-    type : actionTypes.UPDATE_BOOK,
-    payload : data
-  }
-}
+    type: actionTypes.UPDATE_BOOK,
+    payload: data,
+  };
+};
 
 export const addToCart = (book) => {
   // console.log("actionTypes.ADD_TO_CART", actionTypes.ADD_TO_CART);
@@ -47,20 +47,20 @@ export const addToCart = (book) => {
 
 export const handlePlus = (bookId) => {
   return {
-    type : actionTypes.PLUS_ORDER,
+    type: actionTypes.PLUS_ORDER,
     payload: bookId,
-  }
-}
+  };
+};
 
 export const handleMinus = (bookId) => {
   return {
-    type : actionTypes.MINUS_ORDER,
+    type: actionTypes.MINUS_ORDER,
     payload: bookId,
-  }
-}
+  };
+};
 
 export const getListBook = () => {
-  const request = axios.get(`${ENDPOINT}/book/findAll`, {
+  const request = axios.get(`${ENDPOINT}/product/read`, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
@@ -68,10 +68,10 @@ export const getListBook = () => {
 
   return (dispatch) => {
     request.then((response) => {
-      // console.log(response);
+      // console.log("response action". response);
       return dispatch({
         type: actionTypes.GET_BOOK,
-        payload: response.data,
+        payload: response.data.data,
       });
     });
   };
@@ -80,7 +80,7 @@ export const getListBook = () => {
 // get book by id
 export const getBookById = (id) => {
   // http request
-  const request = axios.get(`${ENDPOINT}/book/findById/${id}`, {
+  const request = axios.get(`${ENDPOINT}/product/read${id}`, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
@@ -91,7 +91,7 @@ export const getBookById = (id) => {
     request.then((response) => {
       return dispatch({
         type: actionTypes.GET_BOOK_BY_ID,
-        payload: response.data,
+        payload: response.data.data,
       });
     });
   };
@@ -108,7 +108,7 @@ export const updateBook = (data) => {
     request.then((response) => {
       dispatch({
         type: actionTypes.UPDATE_BOOK,
-        payload: response.data,
+        payload: response.data.data,
       });
 
       return dispatch(getListBook());
@@ -117,7 +117,9 @@ export const updateBook = (data) => {
 };
 
 export const deleteBook = (id) => {
-  const request = axios.delete(`${ENDPOINT}/book/deleteById/${id}`, {
+  console.log(id);
+  const request = axios.delete(`${ENDPOINT}/product/delete`, {
+    data: { id },
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
@@ -127,7 +129,7 @@ export const deleteBook = (id) => {
     request.then((response) => {
       dispatch({
         type: actionTypes.DELETE_BOOK,
-        payload: response.data,
+        payload: response.data.data,
       });
     });
 

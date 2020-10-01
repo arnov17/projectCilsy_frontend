@@ -8,7 +8,7 @@ const Footer = (props) => {
     const {signout } = props;
     return (
         <div>
-            <footer id="footer"class="container-fluid bg-4 text-center">
+            <footer id="footer"className="container-fluid bg-4 text-center">
               <p>Create by https://github.com/arnov17</p>
                 <p>
                     <Link to="/" onClick={() => signout()}>

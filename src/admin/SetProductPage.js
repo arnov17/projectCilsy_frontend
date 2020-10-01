@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 // import "../../App.css";
-import Book from "../components/adminComponent/AdminComponent"
+import Book from "../components/adminComponent/AdminComponent";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
-import { getListBook, updateBook, deleteBook } from "../redux/action/globalActionType"
+import {
+  getListBook,
+  updateBook,
+  deleteBook,
+} from "../redux/action/globalActionType";
 
 const SetBookPage = (props) => {
-  console.log(props)
+  // console.log(props)
   useEffect(() => {
     props.getBook();
   }, []);
@@ -23,10 +27,19 @@ const SetBookPage = (props) => {
     <div className="App">
       <header className="App-header">
         <div className="container m-3">
-          <h2 style={{color : "black"}}>books List</h2>
+          <LinkContainer
+            to="/admin/setCategoryPage"
+            style={{ cursor: "pointer" }}
+          >
+            {/* <h2>&larr;</h2> */}
+            <button>Category</button>
+          </LinkContainer>
+
+          <br></br>
+          <h2 style={{ color: "black" }}>books List</h2>
           <LinkContainer to="/admin/addBook" style={{ cursor: "pointer" }}>
-                {/* <h2>&larr;</h2> */}
-                <button>Submit New Book</button>
+            {/* <h2>&larr;</h2> */}
+            <button>Submit New Book</button>
           </LinkContainer>
         </div>
         <div className="container">
@@ -38,6 +51,7 @@ const SetBookPage = (props) => {
                   book={val}
                   doUpdate={handleUpdate}
                   doDelete={handleDelete}
+                  // refresh={props.getBook()}
                 />
               ))}
           </div>

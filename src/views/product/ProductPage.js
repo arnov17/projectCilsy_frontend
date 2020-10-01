@@ -36,6 +36,7 @@ const BookPage = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  // console.log(state)
   return {
     books: state.bookReducer.books,
     bookInCart: state.bookReducer.booksInCart,

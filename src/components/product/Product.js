@@ -12,17 +12,17 @@ import "./Product.css"
 const Book = (props) => {
   const { book } = props;
   const [data, setData] = useState({});
-
+  console.log(book)
   useEffect(() => {
     setData({
       ...book,
       bookCategory: { ...book.bookCategory },
       id: book.id,
       title: book.title,
-      synopsis: book.synopsis,
+      description: book.description,
       price: book.price,
       bookStatus: book.bookStatus,
-      authorName: book.authorName,
+      author: book.author,
       publicationDate: new Date(),
     });
   }, []);
@@ -61,9 +61,9 @@ const addToCart = id => {
               <h2 className="text-primary">{book.title}</h2>
             </Card.Title>
           </LinkContainer>
-          <h4 className="text-dark">Author: {book.authorName}</h4>
+          <h4 className="text-dark">Author: {book.author}</h4>
           <Card.Text className="text-secondary text-justify">
-            <p>{data.synopsis}</p>
+            <p>{data.description}</p>
           </Card.Text>
             <h4 className="font-weight-bold" style={{ color: "#8052ff" }}>
               {`Rp ${numeral(book.price).format("0,0")}`}

@@ -1,14 +1,19 @@
-import React, { Fragment, useState, useEffect, useCallback } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Form, Button } from "react-bootstrap";
+import React, { Fragment, useEffect, useState, useCallback } from "react";
 
 import { useDropzone } from "react-dropzone";
+
+import { Form, Card, Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { getBookById } from "../redux/action/globalActionType";
+import { connect } from "react-redux";
 
 import axios from "axios";
 import { ENDPOINT, access_token } from "../utils/global/index";
 
-const AddProduct = (props) => {
-  const [FormProduct, setCreateProduct] = useState({
+const UpdateBook = (props) => {
+  // console.log(props);
+
+  const [FormProduct, setProduct] = useState({
     title: "",
     description: "",
     price: "",
@@ -20,6 +25,7 @@ const AddProduct = (props) => {
   const [ListCategory, setcategory] = useState({
     category: [],
   });
+  // console.log(ListCategory.category.data);
 
   useEffect(async () => {
     // props.getBookById(id);
@@ -29,19 +35,37 @@ const AddProduct = (props) => {
         category: categories.data || [],
       });
     }
+
+    const id = props.match.params.id;
+    const response = await axios.get(`${ENDPOINT}/product/read/${id}`);
+    setProduct({
+      ...FormProduct,
+      title: response.data.title,
+      description: response.data.description,
+      price: response.data.price,
+      author: response.data.author,
+      stock: response.data.stock,
+      category_id: response.data.category_id,
+      thumbnail_url: response.data.category,
+    });
   }, []);
+  console.log();
 
   const handlerChange = (event, param) => {
-    setCreateProduct({
+    setProduct({
       ...FormProduct,
       [param]: event.target.value,
     });
   };
 
   const handlerSubmit = async (event) => {
-    console.log(FormProduct);
+    // console.log(FormProduct)
     event.preventDefault();
-    await axios.post(`${ENDPOINT}/product/create`, FormProduct, {
+    const id = props.match.params.id;
+    console.log(id);
+    console.log(FormProduct);
+    await axios.patch(`${ENDPOINT}/product/update`, FormProduct, {
+      data: { id },
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -49,6 +73,11 @@ const AddProduct = (props) => {
 
     props.history.push("/admin/setProduct");
   };
+
+  // useEffect(() => {
+  //   props.getBookById(id);
+  // }, []);
+  console.log(FormProduct);
 
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
@@ -58,7 +87,33 @@ const AddProduct = (props) => {
 
   return (
     <Fragment>
-      <h2>Add New Book</h2>
+      <div className="App">
+        <div className="container">
+          <Card className="pl-0 p-5">
+            <div className="row">
+              <div className="col-md-3">
+                <LinkContainer
+                  to="/admin/setProduct/"
+                  style={{ cursor: "pointer" }}
+                >
+                  <h2>&larr;</h2>
+                </LinkContainer>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-8">
+                <img
+                  className="col-md-8"
+                  variant="top"
+                  src="https://www.seniberpikir.com/wp-content/uploads/Review-Buku-The-Subtle-Art-of-Not-Giving-a-Fuck-karya-mark-manson-2.jpg"
+                  alt=""
+                  width={150}
+                />
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
       <Form method="post">
         <Form.Group>
           <Form.Label className="col-sm-2 col-form-label">
@@ -120,7 +175,7 @@ const AddProduct = (props) => {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label className="col-sm-2 col-form-label">Category</Form.Label>
+          <Form.Label>Choose the Category</Form.Label>
           <Form.Control
             as="select"
             value={FormProduct.category_id}
@@ -131,7 +186,6 @@ const AddProduct = (props) => {
                 // console.log(val);
                 let optionCategory = "";
                 optionCategory += `<option value=${val.id}>${val.category_name}</option>`;
-                // console.log(optionCategory);
                 return (
                   <option key={key + 1} value={val.id}>
                     {val.category_name}
@@ -150,17 +204,33 @@ const AddProduct = (props) => {
           )}
         </div>
         {/* <Form.Group>
-                    <Form.File id="exampleFormControlFile1" method="post" enctype="multipart/form-data" label="File Input Book Image" />
-                </Form.Group> */}
+                                <Form.File id="exampleFormControlFile1" method="post" enctype="multipart/form-data" label="File Input Book Image" />
+                            </Form.Group> */}
 
-        <LinkContainer to={`/admin/setProduct`} style={{ cursor: "pointer" }}>
-          <Button variant="primary" type="submit" onClick={handlerSubmit}>
-            Save
-          </Button>
-        </LinkContainer>
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={handlerSubmit}
+          style={{ cursor: "pointer" }}
+        >
+          Save
+        </Button>
       </Form>
     </Fragment>
   );
 };
 
-export default AddProduct;
+const mapStateToProps = (state) => {
+  return {
+    book: state.bookReducer.book,
+    booksInCart: state.bookReducer.booksInCart,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getBookById: (id) => dispatch(getBookById(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateBook);

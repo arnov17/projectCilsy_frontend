@@ -1,2 +1,6 @@
-export const ENDPOINT = "https://obstore.herokuapp.com/api/rest";
-export const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsib2JzdG9yZS1yZXNvdXJjZS1pZCJdLCJ1c2VyX25hbWUiOiJhZG1pbkBlbWFpbC5jb20iLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXSwiZXhwIjoxNTk3NDUzMDk2LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6ImM2MTc0OWRjLTJlZmYtNDE0NC1hNzUzLWJiZTQwMTYyOTUwMCIsImNsaWVudF9pZCI6Im9ic3RvcmUtY2xpZW50LWlkIn0.ox_w0lapftYzrukymflBMEq5hlj9EPjuqo05vI0gXmI"
+// let TOKEN = '',
+
+// export const ENDPOINT = "https://obstore.herokuapp.com/api/rest";
+export const ENDPOINT = "http://localhost:6003/api/v1";
+export const access_token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTY2OGM1NC1lYmIyLTQwMGYtYTc4MC04MzJkNDA2OWQwOTYiLCJpYXQiOjE2MDE1NTY1NzQsImV4cCI6MTYwMTU2NzM3NH0.ygeXcHjML4cb5JMnR9L31mKg0Ow8CtS9u-G7dAzLslo";

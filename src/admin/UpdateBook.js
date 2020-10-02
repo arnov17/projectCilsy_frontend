@@ -27,27 +27,34 @@ const UpdateBook = (props) => {
   });
   // console.log(ListCategory.category.data);
 
-  useEffect(async () => {
+  useEffect(() => {
     // props.getBookById(id);
-    const categories = await axios.get(`${ENDPOINT}/category/read/`);
-    if (categories) {
-      setcategory({
-        category: categories.data || [],
-      });
-    }
+    const getcategory = async () => {
+      const categories = await axios.get(`${ENDPOINT}/category/read/`);
+      if (categories) {
+        setcategory({
+          category: categories.data || [],
+        });
+      }
+    };
 
-    const id = props.match.params.id;
-    const response = await axios.get(`${ENDPOINT}/product/read/${id}`);
-    setProduct({
-      ...FormProduct,
-      title: response.data.title,
-      description: response.data.description,
-      price: response.data.price,
-      author: response.data.author,
-      stock: response.data.stock,
-      category_id: response.data.category_id,
-      thumbnail_url: response.data.category,
-    });
+    const getProductList = async () => {
+      const id = props.match.params.id;
+      const response = await axios.get(`${ENDPOINT}/product/read/${id}`);
+      console.log(response);
+      setProduct({
+        ...FormProduct,
+        title: response.data.title,
+        description: response.data.description,
+        price: response.data.price,
+        author: response.data.author,
+        stock: response.data.stock,
+        category_id: response.data.category_id,
+        thumbnail_url: response.data.category,
+      });
+    };
+    getcategory();
+    getProductList();
   }, []);
   console.log();
 

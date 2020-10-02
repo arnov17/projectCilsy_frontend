@@ -17,7 +17,7 @@ class SetCategoryPage extends Component {
       });
     }
   };
-  async componentDidMount() {
+  componentDidMount() {
     return this.refresh();
   }
 

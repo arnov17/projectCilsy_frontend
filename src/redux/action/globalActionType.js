@@ -80,7 +80,9 @@ export const getListBook = () => {
 // get book by id
 export const getBookById = (id) => {
   // http request
-  const request = axios.get(`${ENDPOINT}/product/read${id}`, {
+  console.log(id);
+  const request = axios.get(`${ENDPOINT}/product/read`, id, {
+    // data: { id },
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
@@ -88,6 +90,7 @@ export const getBookById = (id) => {
 
   // redux thunk untuk dispatch
   return (dispatch) => {
+    console.log("response action".response);
     request.then((response) => {
       return dispatch({
         type: actionTypes.GET_BOOK_BY_ID,

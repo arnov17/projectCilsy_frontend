@@ -41,13 +41,18 @@ const AddProduct = (props) => {
   const handlerSubmit = async (event) => {
     console.log(FormProduct);
     event.preventDefault();
-    await axios.post(`${ENDPOINT}/product/create`, FormProduct, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-
-    props.history.push("/admin/setProduct");
+    await axios
+      .post(`${ENDPOINT}/product/create`, FormProduct, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then(() => {
+        props.history.push("/admin/setProduct");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onDrop = useCallback((acceptedFiles) => {

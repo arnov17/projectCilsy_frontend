@@ -1,7 +1,5 @@
 import React, { Fragment, useEffect, useState, useCallback } from "react";
 
-import { useDropzone } from "react-dropzone";
-
 import { Form, Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { getBookById } from "../redux/action/globalActionType";
@@ -13,6 +11,16 @@ import { ENDPOINT, access_token } from "../utils/global/index";
 const UpdateBook = (props) => {
   // console.log(props);
 
+  const [FormImage, setFormImage] = useState({
+    file: null,
+  });
+
+  const onChangeImage = (e) => {
+    setFormImage({ file: e.target.files[0] });
+  };
+
+  console.log(FormImage);
+
   const [FormProduct, setProduct] = useState({
     title: "",
     description: "",
@@ -22,10 +30,10 @@ const UpdateBook = (props) => {
     category_id: "",
     thumbnail_url: "",
   });
+  console.log(FormProduct);
   const [ListCategory, setcategory] = useState({
     category: [],
   });
-  // console.log(ListCategory.category.data);
 
   useEffect(() => {
     // props.getBookById(id);
@@ -50,7 +58,7 @@ const UpdateBook = (props) => {
         author: response.data.author,
         stock: response.data.stock,
         category_id: response.data.category_id,
-        thumbnail_url: response.data.category,
+        thumbnail_url: response.data.thumbnail_url,
       });
     };
     getcategory();
@@ -68,15 +76,25 @@ const UpdateBook = (props) => {
   const handlerSubmit = async (event) => {
     // console.log(FormProduct)
     event.preventDefault();
+    const newFormProduct = new FormData();
+    newFormProduct.append("title", FormProduct.title);
+    newFormProduct.append("description", FormProduct.description);
+    newFormProduct.append("price", FormProduct.price);
+    newFormProduct.append("author", FormProduct.author);
+    newFormProduct.append("stock", FormProduct.stock);
+    newFormProduct.append("category_id", FormProduct.category_id);
+    newFormProduct.append("fileThumbnail", FormImage.file);
     const id = props.match.params.id;
     console.log(id);
     console.log(FormProduct);
-    await axios.patch(`${ENDPOINT}/product/update`, FormProduct, {
+    const config = {
       data: { id },
       headers: {
         Authorization: `Bearer ${access_token}`,
+        "content-type": "multipart/form-data",
       },
-    });
+    };
+    await axios.patch(`${ENDPOINT}/product/update`, newFormProduct, config);
 
     props.history.push("/admin/setProduct");
   };
@@ -84,13 +102,6 @@ const UpdateBook = (props) => {
   // useEffect(() => {
   //   props.getBookById(id);
   // }, []);
-  console.log(FormProduct);
-
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    console.log(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <Fragment>
@@ -112,7 +123,10 @@ const UpdateBook = (props) => {
                 <img
                   className="col-md-8"
                   variant="top"
-                  src="https://www.seniberpikir.com/wp-content/uploads/Review-Buku-The-Subtle-Art-of-Not-Giving-a-Fuck-karya-mark-manson-2.jpg"
+                  src={
+                    FormProduct.thumbnail_url &&
+                    "http://localhost:6003" + FormProduct.thumbnail_url
+                  }
                   alt=""
                   width={150}
                 />
@@ -202,17 +216,10 @@ const UpdateBook = (props) => {
           </Form.Control>
         </Form.Group>
 
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          )}
-        </div>
-        {/* <Form.Group>
-                                <Form.File id="exampleFormControlFile1" method="post" enctype="multipart/form-data" label="File Input Book Image" />
-                            </Form.Group> */}
+        <form enctype="multipart/form-data">
+          <input type="file" name="myImage" onChange={onChangeImage} />
+          {/* <button type="submit">Upload</button> */}
+        </form>
 
         <Button
           variant="primary"

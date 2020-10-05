@@ -5,17 +5,17 @@ import { Table, Button } from "react-bootstrap";
 import Footer from "../../components/footer/Footer";
 import numeral from "numeral";
 import { PriceCart } from "../../redux/action";
-import { DataContext } from "../../context/DataContext";
+import { DataContext, FixOrders } from "../../context/DataContext";
 import "./Cart.css";
 
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/global/index";
+import { ENDPOINT, access_token, storageData } from "../../utils/global/index";
 
 const Cart = (props) => {
   console.log(props);
 
   const { dataContext, setDataContext } = useContext(DataContext);
-  // console.log(dataContext.carts);
+  console.log(dataContext.carts);
 
   const DeleteListCart = (id) => {
     const deleteList =
@@ -52,19 +52,54 @@ const Cart = (props) => {
     : 0;
 
   const handlerSubmit = async () => {
-    const transaction = {
-      amount: totalAllProduct,
-    };
-    console.log(transaction);
-    // event.preventDefault();
-    await axios.post(`${ENDPOINT}/transaction/create`, transaction, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    try {
+      const transaction = {
+        amount: totalAllProduct,
+      };
+      console.log(transaction);
+      const createTransaction = await axios.post(
+        `${ENDPOINT}/transaction/create`,
+        transaction,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+      const getidTransaction = createTransaction.data.data.id;
+      localStorage.setItem(
+        "saveidTransaction",
+        JSON.stringify(getidTransaction)
+      );
+
+      dataContext.carts.map((cart, index) => {
+        // console.log(cart);
+        // console.log(cart.id);
+        const createTransactionOrder = async () => {
+          const submitOrder = {
+            transaction_id: getidTransaction,
+            user_id: storageData.id,
+            product_id: cart.id,
+            price: cart.price,
+            total: cart.qty,
+            title: cart.title,
+            author: cart.author,
+            description: cart.description,
+          };
+          console.log(submitOrder);
+
+          await axios.post(`${ENDPOINT}/order/create`, submitOrder, {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          });
+        };
+        createTransactionOrder();
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
-  // const orderFix = dataContext.carts;
-  // console.log(orderFix);
 
   return (
     <div>
@@ -134,6 +169,7 @@ const Cart = (props) => {
                 onClick={() => {
                   props.PriceCart({ totalAllProduct });
                   handlerSubmit();
+                  // fixOrder();
                 }}
               >
                 Checkout

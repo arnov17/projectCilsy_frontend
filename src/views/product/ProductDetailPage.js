@@ -13,10 +13,10 @@ const BookDetailPage = (props) => {
   console.log(props);
   const { id } = props.match.params;
   const { book } = props;
-  console.log(book);
-  console.log(id);
 
-  // const detailBook = book.find(book.id === id)
+  props.book.data.map((b) => {
+    console.log(b);
+  });
 
   useEffect(() => {
     props.getBookById(id);

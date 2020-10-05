@@ -17,14 +17,17 @@ const UpdateCategory = (props) => {
   //   props.getBookById(id);
   // }, []);
 
-  useEffect(async () => {
+  useEffect(() => {
     // props.getBookById(id);
-    const id = props.match.params.id;
-    const response = await axios.get(`${ENDPOINT}/category/read/${id}`);
-    setCategory({
-      ...FormCategory,
-      category_name: response.data.category_name,
-    });
+    const getcategory = async () => {
+      const id = props.match.params.id;
+      const response = await axios.get(`${ENDPOINT}/category/read/${id}`);
+      setCategory({
+        ...FormCategory,
+        category_name: response.data.category_name,
+      });
+    };
+    getcategory();
   }, []);
 
   const handlerChange = (event, param) => {

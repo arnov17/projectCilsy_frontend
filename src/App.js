@@ -13,9 +13,11 @@ import NotFoundPage from "./views/notFound/NotFound";
 import Cart from "./views/cart/Cart";
 import PayConfirm from "./views/cart/confirmPay/ConfirmPay";
 import StatusPayment from "./views/cart/statusPayment/StatusPayment";
+import TopUpSaldo from "./views/cart/topUpSaldo/topUpSaldo";
 
 //pages admin
 import adminLogin from "./admin/AdminLogin";
+import ResgiterAdmin from "./admin/AdminRegister";
 import SetBookPage from "./admin/SetProductPage";
 import UpdateBook from "./admin/UpdateBook";
 import AddProduct from "./admin/AddProduct";
@@ -49,9 +51,11 @@ const App = () => {
                   path="/payconfirm/statusPayment"
                   component={StatusPayment}
                 />
+                <Route path="/topupsaldo" component={TopUpSaldo} />
 
                 {/* admin */}
                 <Route path="/admin" exact component={adminLogin} />
+                <Route path="/admin/register" exact component={ResgiterAdmin} />
                 <Route path="/admin/setProduct" component={SetBookPage} />
                 <Route path="/admin/UpdateBook/:id" component={UpdateBook} />
                 <Route path="/admin/addBook" exact component={AddProduct} />

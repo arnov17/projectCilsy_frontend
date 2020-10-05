@@ -3,16 +3,40 @@ import axios from "axios";
 import { ENDPOINT, access_token } from "../../utils/global/index";
 
 export const signin = (data) => {
-  return {
-    type: actionTypes.SIGNIN,
-    payload: data,
+  // console.log(data);
+  const request = axios.post(`${ENDPOINT}/auth/login`, data);
+
+  return (dispatch) => {
+    request.then((response) => {
+      console.log(response.data.data);
+      const getDataUser = response.data.data;
+      localStorage.setItem("saveUserdata", JSON.stringify(getDataUser));
+      const getToken = response.data.data.access_token;
+      localStorage.setItem("userToken", JSON.stringify(getToken));
+      dispatch({
+        type: actionTypes.SIGNIN,
+        payload: data,
+      });
+    });
   };
 };
 
 export const signup = (data) => {
-  return {
-    type: actionTypes.SIGNUP,
-    payload: data,
+  console.log(data);
+  const request = axios.post(`${ENDPOINT}/auth/register/user`, data, {
+    // headers: {
+    //   Authorization: `Bearer ${access_token}`,
+    // },
+  });
+
+  return (dispatch) => {
+    request.then((response) => {
+      console.log(response);
+      dispatch({
+        type: actionTypes.SIGNUP,
+        payload: response.data,
+      });
+    });
   };
 };
 
@@ -94,7 +118,7 @@ export const getBookById = (id) => {
     request.then((response) => {
       return dispatch({
         type: actionTypes.GET_BOOK_BY_ID,
-        payload: response.data.data,
+        payload: response.data,
       });
     });
   };

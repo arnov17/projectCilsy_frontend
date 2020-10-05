@@ -9,13 +9,16 @@ class SetCategoryPage extends Component {
   state = {
     category: [],
   };
-  refresh = async () => {
-    const categories = await axios.get(`${ENDPOINT}/category/read`);
-    if (categories) {
-      this.setState({
-        category: categories.data || [],
-      });
-    }
+  refresh = () => {
+    const getcategory = async () => {
+      const categories = await axios.get(`${ENDPOINT}/category/read/`);
+      if (categories) {
+        this.setState({
+          category: categories.data || [],
+        });
+      }
+    };
+    getcategory();
   };
   componentDidMount() {
     return this.refresh();

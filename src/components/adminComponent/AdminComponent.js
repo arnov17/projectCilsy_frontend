@@ -43,12 +43,7 @@ const Book = (props) => {
   return (
     <div className="col-md-3">
       <Card>
-        <Card.Img
-          variant="top"
-          src={
-            "https://www.seniberpikir.com/wp-content/uploads/Review-Buku-The-Subtle-Art-of-Not-Giving-a-Fuck-karya-mark-manson-2.jpg"
-          }
-        />
+        <Card.Img variant="top" src={book.thumbnail_url && 'http://localhost:6003'+book.thumbnail_url} />
         <Card.Body>
           <LinkContainer
             to={`/admin/UpdateBook/${book.id}`}

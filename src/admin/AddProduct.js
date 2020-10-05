@@ -2,34 +2,19 @@ import React, { Fragment, useState, useEffect, useCallback } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Form, Button } from "react-bootstrap";
 
-import { useDropzone } from "react-dropzone";
-
 import axios from "axios";
 import { ENDPOINT, access_token } from "../utils/global/index";
 
 const AddProduct = (props) => {
-  const [FormProduct, setCreateProduct] = useState({
-    title: "",
-    description: "",
-    price: "",
-    author: "",
-    stock: "",
-    category_id: "",
-    thumbnail_url: "",
-  });
-  const [ListCategory, setcategory] = useState({
-    category: [],
+  const [FormImage, setFormImage] = useState({
+    file: null,
   });
 
-  useEffect(async () => {
-    // props.getBookById(id);
-    const categories = await axios.get(`${ENDPOINT}/category/read/`);
-    if (categories) {
-      setcategory({
-        category: categories.data || [],
-      });
-    }
-  }, []);
+  const onChangeImage = (e) => {
+    setFormImage({ file: e.target.files[0] });
+  };
+
+  console.log(FormImage);
 
   const handlerChange = (event, param) => {
     setCreateProduct({
@@ -37,16 +22,36 @@ const AddProduct = (props) => {
       [param]: event.target.value,
     });
   };
+  const [FormProduct, setCreateProduct] = useState({
+    title: "",
+    description: "",
+    price: "",
+    author: "",
+    stock: "",
+    category_id: "",
+    // thumbnail_url: FormImage,
+  });
+  console.log(FormProduct);
 
   const handlerSubmit = async (event) => {
-    console.log(FormProduct);
+    // console.log(FormProduct);
     event.preventDefault();
+    const newFormProduct = new FormData();
+    newFormProduct.append("title", FormProduct.title);
+    newFormProduct.append("description", FormProduct.description);
+    newFormProduct.append("price", FormProduct.price);
+    newFormProduct.append("author", FormProduct.author);
+    newFormProduct.append("stock", FormProduct.stock);
+    newFormProduct.append("category_id", FormProduct.category_id);
+    newFormProduct.append("fileThumbnail", FormImage.file);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        "content-type": "multipart/form-data",
+      },
+    };
     await axios
-      .post(`${ENDPOINT}/product/create`, FormProduct, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      })
+      .post(`${ENDPOINT}/product/create`, newFormProduct, config)
       .then(() => {
         props.history.push("/admin/setProduct");
       })
@@ -54,12 +59,22 @@ const AddProduct = (props) => {
         console.log(error);
       });
   };
+  const [ListCategory, setcategory] = useState({
+    category: [],
+  });
 
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    console.log(acceptedFiles);
+  useEffect(() => {
+    // props.getBookById(id);
+    const getcategory = async () => {
+      const categories = await axios.get(`${ENDPOINT}/category/read/`);
+      if (categories) {
+        setcategory({
+          category: categories.data || [],
+        });
+      }
+    };
+    getcategory();
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <Fragment>
@@ -146,17 +161,10 @@ const AddProduct = (props) => {
           </Form.Control>
         </Form.Group>
 
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          )}
-        </div>
-        {/* <Form.Group>
-                    <Form.File id="exampleFormControlFile1" method="post" enctype="multipart/form-data" label="File Input Book Image" />
-                </Form.Group> */}
+        <form enctype="multipart/form-data">
+          <input type="file" name="myImage" onChange={onChangeImage} />
+          {/* <button type="submit">Upload</button> */}
+        </form>
 
         <LinkContainer to={`/admin/setProduct`} style={{ cursor: "pointer" }}>
           <Button variant="primary" type="submit" onClick={handlerSubmit}>

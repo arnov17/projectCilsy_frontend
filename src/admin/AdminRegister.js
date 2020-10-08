@@ -76,7 +76,7 @@ const ResgiterAdmin = () => {
               onChange={(event) => handleChangeFormRegister(event, "password")}
             />
           </Form.Group>
-          <Link to="/">
+          <Link to="/admin">
             <Button
               variant="primary"
               disabled={isValiadation ? false : true}

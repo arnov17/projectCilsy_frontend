@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import "./Homepage.css";
 import Footer from "../../components/footer/Footer";
-import { storageData } from "../../utils/global/index";
 
 const Homepage = (props) => {
   // const { signedUser } = props;
   // console.log(storageData);
+  // useEffect(() => {
+  //   window.location.reload();
+  // });
 
   if (!localStorage.getItem("saveUserdata")) {
     return <>Loading</>;

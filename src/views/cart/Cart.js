@@ -5,7 +5,7 @@ import { Table, Button } from "react-bootstrap";
 import Footer from "../../components/footer/Footer";
 import numeral from "numeral";
 import { PriceCart } from "../../redux/action";
-import { DataContext, FixOrders } from "../../context/DataContext";
+import { DataContext } from "../../context/DataContext";
 import "./Cart.css";
 
 import axios from "axios";
@@ -15,7 +15,8 @@ const Cart = (props) => {
   console.log(props);
 
   const { dataContext, setDataContext } = useContext(DataContext);
-  console.log(dataContext.carts);
+  let carts = dataContext ? dataContext.carts : [];
+  console.log(carts);
 
   const DeleteListCart = (id) => {
     const deleteList =
@@ -156,7 +157,7 @@ const Cart = (props) => {
             </Table>
           </div>
 
-          <h5>Total of carts : {dataContext.carts.length}</h5>
+          <h5>Total of carts : {carts.length}</h5>
 
           <div id="cartSummary">
             <h2>

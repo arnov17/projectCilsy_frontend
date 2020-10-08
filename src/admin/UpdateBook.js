@@ -28,7 +28,7 @@ const UpdateBook = (props) => {
     author: "",
     stock: "",
     category_id: "",
-    thumbnail_url: "",
+    // thumbnail_url: "",
   });
   console.log(FormProduct);
   const [ListCategory, setcategory] = useState({
@@ -64,7 +64,6 @@ const UpdateBook = (props) => {
     getcategory();
     getProductList();
   }, []);
-  console.log();
 
   const handlerChange = (event, param) => {
     setProduct({
@@ -76,25 +75,30 @@ const UpdateBook = (props) => {
   const handlerSubmit = async (event) => {
     // console.log(FormProduct)
     event.preventDefault();
-    const newFormProduct = new FormData();
-    newFormProduct.append("title", FormProduct.title);
-    newFormProduct.append("description", FormProduct.description);
-    newFormProduct.append("price", FormProduct.price);
-    newFormProduct.append("author", FormProduct.author);
-    newFormProduct.append("stock", FormProduct.stock);
-    newFormProduct.append("category_id", FormProduct.category_id);
-    newFormProduct.append("fileThumbnail", FormImage.file);
+    // const newFormProduct = new FormData();
+    // newFormProduct.append("title", FormProduct.title);
+    // newFormProduct.append("description", FormProduct.description);
+    // newFormProduct.append("price", FormProduct.price);
+    // newFormProduct.append("author", FormProduct.author);
+    // newFormProduct.append("stock", FormProduct.stock);
+    // newFormProduct.append("category_id", FormProduct.category_id);
+    // newFormProduct.append("fileThumbnail", FormImage.file);
     const id = props.match.params.id;
     console.log(id);
-    console.log(FormProduct);
-    const config = {
+    // console.log(newFormProduct);
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${access_token}`,
+    //     "content-type": "multipart/form-data",
+    //   },
+    // };
+    await axios.patch(`${ENDPOINT}/product/update`, FormProduct, {
       data: { id },
       headers: {
         Authorization: `Bearer ${access_token}`,
-        "content-type": "multipart/form-data",
+        // "content-type": "multipart/form-data",
       },
-    };
-    await axios.patch(`${ENDPOINT}/product/update`, newFormProduct, config);
+    });
 
     props.history.push("/admin/setProduct");
   };
@@ -205,8 +209,6 @@ const UpdateBook = (props) => {
             {ListCategory.category.data &&
               ListCategory.category.data.map((val, key) => {
                 // console.log(val);
-                let optionCategory = "";
-                optionCategory += `<option value=${val.id}>${val.category_name}</option>`;
                 return (
                   <option key={key + 1} value={val.id}>
                     {val.category_name}
@@ -216,10 +218,9 @@ const UpdateBook = (props) => {
           </Form.Control>
         </Form.Group>
 
-        <form enctype="multipart/form-data">
+        {/* <form method="POST" encType="multipart/form-data">
           <input type="file" name="myImage" onChange={onChangeImage} />
-          {/* <button type="submit">Upload</button> */}
-        </form>
+        </form> */}
 
         <Button
           variant="primary"

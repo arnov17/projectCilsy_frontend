@@ -8,6 +8,7 @@ import {
   updateBook,
   deleteBook,
 } from "../redux/action/globalActionType";
+import Footer from "../components/footer/Footer";
 
 const SetBookPage = (props) => {
   // console.log(props)
@@ -57,6 +58,7 @@ const SetBookPage = (props) => {
           </div>
         </div>
       </header>
+      <Footer />
     </div>
   );
 };

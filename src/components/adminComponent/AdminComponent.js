@@ -12,7 +12,6 @@ const Book = (props) => {
   // console.log("PROPS", props);
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({});
-  const bookStatus = book.bookStatus === "FOR_SELL" ? "info" : "warning";
 
   useEffect(() => {
     setData({
@@ -33,6 +32,7 @@ const Book = (props) => {
 
   const handleDelete = (id, refresh) => {
     doDelete(id);
+    window.location.reload();
     // return refresh();
   };
 
@@ -43,7 +43,12 @@ const Book = (props) => {
   return (
     <div className="col-md-3">
       <Card>
-        <Card.Img variant="top" src={book.thumbnail_url && 'http://localhost:6003'+book.thumbnail_url} />
+        <Card.Img
+          variant="top"
+          src={
+            book.thumbnail_url && "http://localhost:6003" + book.thumbnail_url
+          }
+        />
         <Card.Body>
           <LinkContainer
             to={`/admin/UpdateBook/${book.id}`}

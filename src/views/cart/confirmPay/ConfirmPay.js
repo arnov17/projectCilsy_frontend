@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
 import numeral from "numeral";
 import { withRouter } from "react-router";
@@ -10,8 +10,11 @@ import axios from "axios";
 import { ENDPOINT, access_token } from "../../../utils/global/index";
 import { storageData } from "../../../utils/global/index";
 
+import { DataContext } from "../../../context/DataContext";
+
 const PayConfirm = (props) => {
   console.log(props.PriceCart.totalAllProduct);
+  const { dataContext, setDataContext } = useContext(DataContext);
   const [dataUser, setDataUser] = useState({
     name: "",
     saldo: "",
@@ -62,6 +65,11 @@ const PayConfirm = (props) => {
       });
 
       console.log(dataUser.saldo - props.PriceCart.totalAllProduct);
+      setDataContext({
+        ...dataContext,
+        carts: [],
+      });
+
       localStorage.removeItem("saveidTransaction");
       props.history.push("/payconfirm/statusPayment");
     }

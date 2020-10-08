@@ -6,8 +6,11 @@ import { connect } from "react-redux";
 import { signin } from "../../redux/action";
 import "./Login.css";
 
+import axios from "axios";
+import { ENDPOINT } from "../../utils/global/index";
+
 const Signin = (props) => {
-  const { signin, signinResponse, users } = props;
+  const { signin, signinResponse } = props;
   const [FormData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,21 +31,26 @@ const Signin = (props) => {
   };
 
   const checkInput = () => {
-    //   let findUser = users.find(
-    //     (user) =>
-    //       user.username === FormData.username &&
-    //       user.password === FormData.password
-    //   );
     if (FormData.email.length === 0 || FormData.password.length === 0) {
-      alert("Email dan Password still Empty");
+      alert("Email and Password still Empty");
     } else {
-      history.push("homepage");
+      axios
+        .post(`${ENDPOINT}/auth/login/user`, FormData)
+        .then((response) => {
+          console.log(response);
+          const getDataUser = response.data.data;
+          localStorage.setItem("saveUserdata", JSON.stringify(getDataUser));
+          const getToken = response.data.data.access_token;
+          localStorage.setItem("userToken", JSON.stringify(getToken));
+          history.push("/homepage");
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("Email and Password Wrong");
+          history.push("/");
+        });
     }
-    //   } else if (findUser) {
-    //     history.push("homepage");
-    //   } else {
-    //     alert("email or password is Wrong");
-    //   }
   };
 
   return (
@@ -74,7 +82,7 @@ const Signin = (props) => {
           <Button
             variant="primary"
             onClick={() => {
-              signin({ email: FormData.email, password: FormData.password });
+              // signin({ email: FormData.email, password: FormData.password });
               checkInput();
             }}
           >

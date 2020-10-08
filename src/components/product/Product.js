@@ -16,14 +16,11 @@ const Book = (props) => {
   useEffect(() => {
     setData({
       ...book,
-      bookCategory: { ...book.bookCategory },
       id: book.id,
       title: book.title,
       description: book.description,
       price: book.price,
-      bookStatus: book.bookStatus,
       author: book.author,
-      publicationDate: new Date(),
     });
   }, []);
 

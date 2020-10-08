@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useCallback } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Form, Button } from "react-bootstrap";
 
@@ -44,6 +44,7 @@ const AddProduct = (props) => {
     newFormProduct.append("stock", FormProduct.stock);
     newFormProduct.append("category_id", FormProduct.category_id);
     newFormProduct.append("fileThumbnail", FormImage.file);
+    console.log(newFormProduct);
     const config = {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -149,9 +150,6 @@ const AddProduct = (props) => {
             {ListCategory.category.data &&
               ListCategory.category.data.map((val, key) => {
                 // console.log(val);
-                let optionCategory = "";
-                optionCategory += `<option value=${val.id}>${val.category_name}</option>`;
-                // console.log(optionCategory);
                 return (
                   <option key={key + 1} value={val.id}>
                     {val.category_name}

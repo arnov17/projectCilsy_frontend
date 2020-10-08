@@ -1,15 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { signout } from "../../redux/action";
 import "./Footer.css";
 
 const Footer = (props) => {
   // const { signout } = props;
+  const history = useHistory("");
   const logOut = () => {
     localStorage.removeItem("saveUserdata");
     localStorage.removeItem("userToken");
     localStorage.removeItem("saveidTransaction");
+    history.push("/");
+    window.location.reload();
   };
   return (
     <div>
@@ -37,4 +40,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Footer));

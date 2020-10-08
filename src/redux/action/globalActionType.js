@@ -4,7 +4,7 @@ import { ENDPOINT, access_token } from "../../utils/global/index";
 
 export const signin = (data) => {
   // console.log(data);
-  const request = axios.post(`${ENDPOINT}/auth/login`, data);
+  const request = axios.post(`${ENDPOINT}/auth/login/user`, data);
 
   return (dispatch) => {
     request.then((response) => {
@@ -105,7 +105,7 @@ export const getListBook = () => {
 export const getBookById = (id) => {
   // http request
   console.log(id);
-  const request = axios.get(`${ENDPOINT}/product/read`, id, {
+  const request = axios.get(`${ENDPOINT}/product/read/${id}`, {
     // data: { id },
     headers: {
       Authorization: `Bearer ${access_token}`,

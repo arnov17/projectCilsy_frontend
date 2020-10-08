@@ -18,6 +18,7 @@ import TopUpSaldo from "./views/cart/topUpSaldo/topUpSaldo";
 //pages admin
 import adminLogin from "./admin/AdminLogin";
 import ResgiterAdmin from "./admin/AdminRegister";
+import Dashboard from "./admin/dashboard";
 import SetBookPage from "./admin/SetProductPage";
 import UpdateBook from "./admin/UpdateBook";
 import AddProduct from "./admin/AddProduct";
@@ -55,6 +56,7 @@ const App = () => {
 
                 {/* admin */}
                 <Route path="/admin" exact component={adminLogin} />
+                <Route path="/admin/dashboard" exact component={Dashboard} />
                 <Route path="/admin/register" exact component={ResgiterAdmin} />
                 <Route path="/admin/setProduct" component={SetBookPage} />
                 <Route path="/admin/UpdateBook/:id" component={UpdateBook} />

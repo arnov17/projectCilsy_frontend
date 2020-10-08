@@ -1,4 +1,5 @@
 import React, { Fragment, useState, Component } from "react";
+import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 
@@ -33,7 +34,8 @@ class SetCategoryPage extends Component {
       },
     });
     console.log(request);
-    return this.refresh();
+    window.location.reload();
+    // return this.refresh();
   };
 
   render() {
@@ -41,6 +43,9 @@ class SetCategoryPage extends Component {
     return (
       <Fragment>
         <div className="App">
+          <Link to="/admin/setProduct" style={{ cursor: "pointer" }}>
+            <h2>&larr;</h2>
+          </Link>
           <header className="App-header">
             <div className="container m-3">
               <h2 style={{ color: "black" }}>category List</h2>

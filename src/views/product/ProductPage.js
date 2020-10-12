@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import "../../App.css";
-import Book from "../../components/product/Product"
+import Book from "../../components/product/Product";
 
 import { connect } from "react-redux";
-import { getListBook} from "../../redux/action/globalActionType"
-import Footer from "../../components/footer/Footer"
+import { getListBook } from "../../redux/action/globalActionType";
+import Footer from "../../components/footer/Footer";
 
 const BookPage = (props) => {
-  // console.log(props)
+  console.log(props);
   useEffect(() => {
     props.getBook();
   }, []);
@@ -21,16 +21,11 @@ const BookPage = (props) => {
         <div className="container">
           <div className="row">
             {props.books &&
-              props.books.map((val, key) => (
-                <Book
-                  key={key}
-                  book={val}
-                />
-              ))}
+              props.books.map((val, key) => <Book key={key} book={val} />)}
           </div>
         </div>
       </header>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

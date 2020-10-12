@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import "../../App.css";
 import Book from "../components/adminComponent/AdminComponent";
 import { LinkContainer } from "react-router-bootstrap";
+import { Pagination } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   getListBook,
@@ -10,11 +12,41 @@ import {
 } from "../redux/action/globalActionType";
 import Footer from "../components/footer/Footer";
 
+import axios from "axios";
+import { ENDPOINT } from "../utils/global/index";
+
 const SetBookPage = (props) => {
-  // console.log(props)
+  const [ListBooks, setListBook] = useState({
+    Books: [],
+  });
+  const TotalBooks = ListBooks.Books.count;
+  console.log(ListBooks.Books.rows);
+  const [currentPage, setCurentPage] = useState(1);
+  console.log(currentPage);
+
   useEffect(() => {
-    props.getBook();
+    // props.getBook();
+    const getProductList = async () => {
+      let pageCurrent = 2;
+      const response = await axios.get(
+        `${ENDPOINT}/product/read?page=${currentPage}`
+      );
+      if (response) {
+        setListBook({
+          Books: response.data.data || [],
+        });
+      }
+      // console.log(response.data.data);
+    };
+    getProductList();
   }, []);
+
+  //change page
+  const paginate = (pageNumber) => setCurentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(TotalBooks / 3); i++) {
+    pageNumbers.push(i);
+  }
 
   const handleUpdate = (data) => {
     props.updateBook(data);
@@ -45,8 +77,19 @@ const SetBookPage = (props) => {
         </div>
         <div className="container">
           <div className="row">
-            {props.books &&
+            {/* {props.books &&
               props.books.map((val, key) => (
+                <Book
+                  key={key}
+                  book={val}
+                  doUpdate={handleUpdate}
+                  doDelete={handleDelete}
+                  // refresh={props.getBook()}
+                />
+              ))} */}
+
+            {ListBooks.Books.rows &&
+              ListBooks.Books.rows.map((val, key) => (
                 <Book
                   key={key}
                   book={val}
@@ -57,6 +100,21 @@ const SetBookPage = (props) => {
               ))}
           </div>
         </div>
+        <nav>
+          <ul className="pagination">
+            {pageNumbers.map((number) => (
+              <li key={number} className="page-item">
+                <a
+                  onClick={() => paginate(number)}
+                  // href=""
+                  className="page-link"
+                >
+                  {number}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </header>
       <Footer />
     </div>

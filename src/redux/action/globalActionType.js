@@ -92,7 +92,7 @@ export const getListBook = () => {
 
   return (dispatch) => {
     request.then((response) => {
-      // console.log("response action". response);
+      console.log("response action".response);
       return dispatch({
         type: actionTypes.GET_BOOK,
         payload: response.data.data,
@@ -100,6 +100,21 @@ export const getListBook = () => {
     });
   };
 };
+
+// // get list book pagenation
+// export const getListBook = (data) => {
+//   const request = axios.get(`${ENDPOINT}/product/read?page=${data}`);
+
+//   return (dispatch) => {
+//     request.then((response) => {
+//       // console.log("response action". response);
+//       return dispatch({
+//         type: actionTypes.GET_BOOK,
+//         payload: response.data.data,
+//       });
+//     });
+//   };
+// };
 
 // get book by id
 export const getBookById = (id) => {

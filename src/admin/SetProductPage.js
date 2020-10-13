@@ -39,7 +39,7 @@ const SetBookPage = (props) => {
       // console.log(response.data.data);
     };
     getProductList();
-  }, []);
+  }, [currentPage]);
 
   //change page
   const paginate = (pageNumber) => setCurentPage(pageNumber);
@@ -106,7 +106,7 @@ const SetBookPage = (props) => {
               <li key={number} className="page-item">
                 <a
                   onClick={() => paginate(number)}
-                  // href=""
+                  href={`/admin/setProduct?pages=${number}`}
                   className="page-link"
                 >
                   {number}

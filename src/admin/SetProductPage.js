@@ -16,37 +16,28 @@ import axios from "axios";
 import { ENDPOINT } from "../utils/global/index";
 
 const SetBookPage = (props) => {
-  const [ListBooks, setListBook] = useState({
-    Books: [],
-  });
-  const TotalBooks = ListBooks.Books.count;
-  console.log(ListBooks.Books.rows);
+  // console.log(props.books.rows);
+  const TotalBooks = props.books.count;
+  // console.log(ListBooks.Books.rows);
   const [currentPage, setCurentPage] = useState(1);
-  console.log(currentPage);
-
+  // console.log(currentPage);
   useEffect(() => {
-    // props.getBook();
-    const getProductList = async () => {
-      let pageCurrent = 2;
-      const response = await axios.get(
-        `${ENDPOINT}/product/read?page=${currentPage}`
-      );
-      if (response) {
-        setListBook({
-          Books: response.data.data || [],
-        });
-      }
-      // console.log(response.data.data);
-    };
-    getProductList();
+    props.getBook(currentPage);
   }, [currentPage]);
 
   //change page
-  const paginate = (pageNumber) => setCurentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    if (pageNumber < 1) {
+      pageNumber = 1;
+    }
+    setCurentPage(pageNumber);
+  };
+
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(TotalBooks / 3); i++) {
     pageNumbers.push(i);
   }
+  const lastPage = Math.ceil(TotalBooks / 3);
 
   const handleUpdate = (data) => {
     props.updateBook(data);
@@ -77,19 +68,8 @@ const SetBookPage = (props) => {
         </div>
         <div className="container">
           <div className="row">
-            {/* {props.books &&
-              props.books.map((val, key) => (
-                <Book
-                  key={key}
-                  book={val}
-                  doUpdate={handleUpdate}
-                  doDelete={handleDelete}
-                  // refresh={props.getBook()}
-                />
-              ))} */}
-
-            {ListBooks.Books.rows &&
-              ListBooks.Books.rows.map((val, key) => (
+            {props.books.rows &&
+              props.books.rows.map((val, key) => (
                 <Book
                   key={key}
                   book={val}
@@ -102,17 +82,53 @@ const SetBookPage = (props) => {
         </div>
         <nav>
           <ul className="pagination">
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${1}`}
+                onClick={() => paginate(1)}
+                className="page-link"
+              >
+                Firts
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${currentPage - 1}`}
+                onClick={() => paginate(currentPage - 1)}
+                className="page-link"
+              >
+                Previous
+              </Link>
+            </li>
             {pageNumbers.map((number) => (
               <li key={number} className="page-item">
-                <a
+                <Link
+                  to={`/admin/setProduct?pages=${number}`}
                   onClick={() => paginate(number)}
-                  href={`/admin/setProduct?pages=${number}`}
                   className="page-link"
                 >
                   {number}
-                </a>
+                </Link>
               </li>
             ))}
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${currentPage + 1}`}
+                onClick={() => paginate(currentPage + 1)}
+                className="page-link"
+              >
+                next
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${lastPage}`}
+                onClick={() => paginate(lastPage)}
+                className="page-link"
+              >
+                Last
+              </Link>
+            </li>
           </ul>
         </nav>
       </header>
@@ -130,7 +146,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBook: () => dispatch(getListBook()),
+    getBook: (currentPage) => dispatch(getListBook(currentPage)),
     updateBook: (data) => dispatch(updateBook(data)),
     deleteBook: (id) => dispatch(deleteBook(id)),
   };

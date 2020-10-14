@@ -22,6 +22,8 @@ const BookPage = (props) => {
   const paginate = (pageNumber) => {
     if (pageNumber < 1) {
       pageNumber = 1;
+    } else if (pageNumber > lastPage) {
+      pageNumber = lastPage;
     }
     setCurentPage(pageNumber);
   };

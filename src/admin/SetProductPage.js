@@ -16,7 +16,8 @@ import axios from "axios";
 import { ENDPOINT } from "../utils/global/index";
 
 const SetBookPage = (props) => {
-  // console.log(props.books.rows);
+  // console.log(props.books);
+  const limit = props.books.limit;
   const TotalBooks = props.books.count;
   // console.log(ListBooks.Books.rows);
   const [currentPage, setCurentPage] = useState(1);
@@ -29,15 +30,17 @@ const SetBookPage = (props) => {
   const paginate = (pageNumber) => {
     if (pageNumber < 1) {
       pageNumber = 1;
+    } else if (pageNumber > lastPage) {
+      pageNumber = lastPage;
     }
     setCurentPage(pageNumber);
   };
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(TotalBooks / 3); i++) {
+  for (let i = 1; i <= Math.ceil(TotalBooks / limit); i++) {
     pageNumbers.push(i);
   }
-  const lastPage = Math.ceil(TotalBooks / 3);
+  const lastPage = Math.ceil(TotalBooks / limit);
 
   const handleUpdate = (data) => {
     props.updateBook(data);
@@ -84,7 +87,7 @@ const SetBookPage = (props) => {
           <ul className="pagination">
             <li className="page-item">
               <Link
-                to={`/product?pages=${1}`}
+                to={`/admin/setProduct?pages=${1}`}
                 onClick={() => paginate(1)}
                 className="page-link"
               >
@@ -93,7 +96,7 @@ const SetBookPage = (props) => {
             </li>
             <li className="page-item">
               <Link
-                to={`/product?pages=${currentPage - 1}`}
+                to={`/admin/setProduct?pages=${currentPage - 1}`}
                 onClick={() => paginate(currentPage - 1)}
                 className="page-link"
               >
@@ -113,7 +116,7 @@ const SetBookPage = (props) => {
             ))}
             <li className="page-item">
               <Link
-                to={`/product?pages=${currentPage + 1}`}
+                to={`/admin/setProduct?pages=${currentPage + 1}`}
                 onClick={() => paginate(currentPage + 1)}
                 className="page-link"
               >
@@ -122,7 +125,7 @@ const SetBookPage = (props) => {
             </li>
             <li className="page-item">
               <Link
-                to={`/product?pages=${lastPage}`}
+                to={`/admin/setProduct?pages=${lastPage}`}
                 onClick={() => paginate(lastPage)}
                 className="page-link"
               >

@@ -28,9 +28,9 @@ const UpdateBook = (props) => {
     author: "",
     stock: "",
     category_id: "",
-    // thumbnail_url: "",
+    thumbnail_url: "",
   });
-  console.log(FormProduct);
+  // console.log(FormProduct);
   const [ListCategory, setcategory] = useState({
     category: [],
   });
@@ -75,30 +75,28 @@ const UpdateBook = (props) => {
   const handlerSubmit = async (event) => {
     // console.log(FormProduct)
     event.preventDefault();
-    // const newFormProduct = new FormData();
-    // newFormProduct.append("title", FormProduct.title);
-    // newFormProduct.append("description", FormProduct.description);
-    // newFormProduct.append("price", FormProduct.price);
-    // newFormProduct.append("author", FormProduct.author);
-    // newFormProduct.append("stock", FormProduct.stock);
-    // newFormProduct.append("category_id", FormProduct.category_id);
-    // newFormProduct.append("fileThumbnail", FormImage.file);
+    const newFormProduct = new FormData();
+    newFormProduct.append("title", FormProduct.title);
+    newFormProduct.append("description", FormProduct.description);
+    newFormProduct.append("price", FormProduct.price);
+    newFormProduct.append("author", FormProduct.author);
+    newFormProduct.append("stock", FormProduct.stock);
+    newFormProduct.append("category_id", FormProduct.category_id);
+    newFormProduct.append("fileThumbnail", FormImage.file);
     const id = props.match.params.id;
     console.log(id);
-    // console.log(newFormProduct);
-    // const config = {
-    //   headers: {
-    //     Authorization: `Bearer ${access_token}`,
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
-    await axios.patch(`${ENDPOINT}/product/update`, FormProduct, {
-      data: { id },
+    console.log(newFormProduct);
+    const config = {
       headers: {
         Authorization: `Bearer ${access_token}`,
-        // "content-type": "multipart/form-data",
+        "content-type": "multipart/form-data",
       },
-    });
+    };
+    await axios.patch(
+      `${ENDPOINT}/product/update/${id}`,
+      newFormProduct,
+      config
+    );
 
     props.history.push("/admin/setProduct");
   };
@@ -218,9 +216,9 @@ const UpdateBook = (props) => {
           </Form.Control>
         </Form.Group>
 
-        {/* <form method="POST" encType="multipart/form-data">
+        <form method="POST" encType="multipart/form-data">
           <input type="file" name="myImage" onChange={onChangeImage} />
-        </form> */}
+        </form>
 
         <Button
           variant="primary"

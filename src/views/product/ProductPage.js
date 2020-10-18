@@ -1,16 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css";
-import Book from "../../components/product/Product"
-
+import Book from "../../components/product/Product";
 import { connect } from "react-redux";
-import { getListBook} from "../../redux/action/globalActionType"
-import Footer from "../../components/footer/Footer"
+import { Link } from "react-router-dom";
+import { getListBook } from "../../redux/action/globalActionType";
+import Footer from "../../components/footer/Footer";
+
+import { Pagination } from "react-bootstrap";
 
 const BookPage = (props) => {
-  // console.log(props)
+  const limit = props.books.limit;
+  // console.log(props.books.rows);
+  const TotalBooks = props.books.count;
+  // console.log(ListBooks.Books.rows);
+  const [currentPage, setCurentPage] = useState(1);
+  // console.log(currentPage);
   useEffect(() => {
-    props.getBook();
-  }, []);
+    props.getBook(currentPage);
+  }, [currentPage]);
+
+  //change page
+  const paginate = (pageNumber) => {
+    if (pageNumber < 1) {
+      pageNumber = 1;
+    } else if (pageNumber > lastPage) {
+      pageNumber = lastPage;
+    }
+    setCurentPage(pageNumber);
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(TotalBooks / limit); i++) {
+    pageNumbers.push(i);
+  }
+  const lastPage = Math.ceil(TotalBooks / limit);
 
   return (
     <div className="App">
@@ -20,17 +43,63 @@ const BookPage = (props) => {
         </div>
         <div className="container">
           <div className="row">
-            {props.books &&
-              props.books.map((val, key) => (
-                <Book
-                  key={key}
-                  book={val}
-                />
-              ))}
+            {props.books.rows &&
+              props.books.rows.map((val, key) => <Book key={key} book={val} />)}
           </div>
         </div>
+        <nav>
+          <ul className="pagination">
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${1}`}
+                onClick={() => paginate(1)}
+                className="page-link"
+              >
+                Firts
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${currentPage - 1}`}
+                onClick={() => paginate(currentPage - 1)}
+                className="page-link"
+              >
+                Previous
+              </Link>
+            </li>
+            {pageNumbers.map((number) => (
+              <li key={number} className="page-item">
+                <Link
+                  to={`/product?pages=${number}`}
+                  onClick={() => paginate(number)}
+                  className="page-link"
+                >
+                  {number}
+                </Link>
+              </li>
+            ))}
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${currentPage + 1}`}
+                onClick={() => paginate(currentPage + 1)}
+                className="page-link"
+              >
+                next
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                to={`/product?pages=${lastPage}`}
+                onClick={() => paginate(lastPage)}
+                className="page-link"
+              >
+                Last
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </header>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
@@ -45,7 +114,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBook: () => dispatch(getListBook()),
+    getBook: (currentPage) => dispatch(getListBook(currentPage)),
   };
 };
 

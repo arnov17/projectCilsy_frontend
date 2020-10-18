@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { signup } from "../../redux/action";
-import "./Register.css";
 
-const Signup = (props) => {
-  const { signup } = props;
+import { ENDPOINT, access_token } from "../utils/global/index";
+
+const ResgiterAdmin = () => {
   const [formRegister, setFormRegister] = useState({
     name: "",
     email: "",
@@ -36,12 +34,14 @@ const Signup = (props) => {
     }
   };
 
-  // console.log(formRegister);
+  const handleSignUpadmin = () => {
+    axios.post(`${ENDPOINT}/auth/register/admin`, formRegister, {});
+  };
 
   return (
     <div>
       <div id="headline">
-        <h2>Form Register</h2>
+        <h2>Admin Form Register</h2>
       </div>
 
       <div id="form">
@@ -76,40 +76,21 @@ const Signup = (props) => {
               onChange={(event) => handleChangeFormRegister(event, "password")}
             />
           </Form.Group>
-          <Link to="/">
+          <Link to="/admin">
             <Button
               variant="primary"
               disabled={isValiadation ? false : true}
-              onClick={() =>
-                signup({
-                  name: formRegister.name,
-                  email: formRegister.email,
-                  password: formRegister.password,
-                })
-              }
+              onClick={() => handleSignUpadmin()}
             >
               Submit
             </Button>
           </Link>
           <br />
-          Already have an account? <Link to="/">Sign in</Link>
+          Already have an account? <Link to="/admin">Sign in Admin</Link>
         </Form>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.bookReducer.users,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  console.log(signup);
-  return {
-    signup: (data) => dispatch(signup(data)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Signup));
+export default withRouter(ResgiterAdmin);

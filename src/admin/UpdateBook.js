@@ -1,11 +1,16 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect, useState, useCallback } from "react";
+
+import { Form, Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Form, Button } from "react-bootstrap";
+import { getBookById } from "../redux/action/globalActionType";
+import { connect } from "react-redux";
 
 import axios from "axios";
 import { ENDPOINT, access_token } from "../utils/global/index";
 
-const AddProduct = (props) => {
+const UpdateBook = (props) => {
+  // console.log(props);
+
   const [FormImage, setFormImage] = useState({
     file: null,
   });
@@ -16,50 +21,16 @@ const AddProduct = (props) => {
 
   console.log(FormImage);
 
-  const handlerChange = (event, param) => {
-    setCreateProduct({
-      ...FormProduct,
-      [param]: event.target.value,
-    });
-  };
-  const [FormProduct, setCreateProduct] = useState({
+  const [FormProduct, setProduct] = useState({
     title: "",
     description: "",
     price: "",
     author: "",
     stock: "",
     category_id: "",
-    // thumbnail_url: FormImage,
+    thumbnail_url: "",
   });
-  console.log(FormProduct);
-
-  const handlerSubmit = async (event) => {
-    // console.log(FormProduct);
-    event.preventDefault();
-    const newFormProduct = new FormData();
-    newFormProduct.append("title", FormProduct.title);
-    newFormProduct.append("description", FormProduct.description);
-    newFormProduct.append("price", FormProduct.price);
-    newFormProduct.append("author", FormProduct.author);
-    newFormProduct.append("stock", FormProduct.stock);
-    newFormProduct.append("category_id", FormProduct.category_id);
-    newFormProduct.append("fileThumbnail", FormImage.file);
-    console.log(newFormProduct);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "content-type": "multipart/form-data",
-      },
-    };
-    await axios
-      .post(`${ENDPOINT}/product/create`, newFormProduct, config)
-      .then(() => {
-        props.history.push("/admin/setProduct");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // console.log(FormProduct);
   const [ListCategory, setcategory] = useState({
     category: [],
   });
@@ -74,12 +45,98 @@ const AddProduct = (props) => {
         });
       }
     };
+
+    const getProductList = async () => {
+      const id = props.match.params.id;
+      const response = await axios.get(`${ENDPOINT}/product/read/${id}`);
+      console.log(response);
+      setProduct({
+        ...FormProduct,
+        title: response.data.title,
+        description: response.data.description,
+        price: response.data.price,
+        author: response.data.author,
+        stock: response.data.stock,
+        category_id: response.data.category_id,
+        thumbnail_url: response.data.thumbnail_url,
+      });
+    };
     getcategory();
+    getProductList();
   }, []);
+
+  const handlerChange = (event, param) => {
+    setProduct({
+      ...FormProduct,
+      [param]: event.target.value,
+    });
+  };
+
+  const handlerSubmit = async (event) => {
+    // console.log(FormProduct)
+    event.preventDefault();
+    const newFormProduct = new FormData();
+    newFormProduct.append("title", FormProduct.title);
+    newFormProduct.append("description", FormProduct.description);
+    newFormProduct.append("price", FormProduct.price);
+    newFormProduct.append("author", FormProduct.author);
+    newFormProduct.append("stock", FormProduct.stock);
+    newFormProduct.append("category_id", FormProduct.category_id);
+    newFormProduct.append("fileThumbnail", FormImage.file);
+    const id = props.match.params.id;
+    console.log(id);
+    console.log(newFormProduct);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        "content-type": "multipart/form-data",
+      },
+    };
+    await axios.patch(
+      `${ENDPOINT}/product/update/${id}`,
+      newFormProduct,
+      config
+    );
+
+    props.history.push("/admin/setProduct");
+  };
+
+  // useEffect(() => {
+  //   props.getBookById(id);
+  // }, []);
 
   return (
     <Fragment>
-      <h2>Add New Book</h2>
+      <div className="App">
+        <div className="container">
+          <Card className="pl-0 p-5">
+            <div className="row">
+              <div className="col-md-3">
+                <LinkContainer
+                  to="/admin/setProduct/"
+                  style={{ cursor: "pointer" }}
+                >
+                  <h2>&larr;</h2>
+                </LinkContainer>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-8">
+                <img
+                  className="col-md-8"
+                  variant="top"
+                  src={
+                    FormProduct.thumbnail_url &&
+                    "http://localhost:6003" + FormProduct.thumbnail_url
+                  }
+                  alt=""
+                  width={150}
+                />
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
       <Form method="post">
         <Form.Group>
           <Form.Label className="col-sm-2 col-form-label">
@@ -141,7 +198,7 @@ const AddProduct = (props) => {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label className="col-sm-2 col-form-label">Category</Form.Label>
+          <Form.Label>Choose the Category</Form.Label>
           <Form.Control
             as="select"
             value={FormProduct.category_id}
@@ -159,19 +216,34 @@ const AddProduct = (props) => {
           </Form.Control>
         </Form.Group>
 
-        <form enctype="multipart/form-data">
+        <form method="POST" encType="multipart/form-data">
           <input type="file" name="myImage" onChange={onChangeImage} />
-          {/* <button type="submit">Upload</button> */}
         </form>
 
-        <LinkContainer to={`/admin/setProduct`} style={{ cursor: "pointer" }}>
-          <Button variant="primary" type="submit" onClick={handlerSubmit}>
-            Save
-          </Button>
-        </LinkContainer>
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={handlerSubmit}
+          style={{ cursor: "pointer" }}
+        >
+          Save
+        </Button>
       </Form>
     </Fragment>
   );
 };
 
-export default AddProduct;
+const mapStateToProps = (state) => {
+  return {
+    book: state.bookReducer.book,
+    booksInCart: state.bookReducer.booksInCart,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getBookById: (id) => dispatch(getBookById(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateBook);

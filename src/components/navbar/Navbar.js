@@ -1,29 +1,43 @@
-import React, {useContext} from 'react'
-import {NavLink} from 'react-router-dom'
-import {NavbarStyled} from './NavbarStyle'
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { NavbarStyled } from "./NavbarStyle";
 
-import {connect} from 'react-redux'
-import {DataContext} from '../../context/DataContext'
+import { connect } from "react-redux";
+import { DataContext } from "../../context/DataContext";
 
 const Navbar = (props) => {
   //use context
-  const {dataContext} = useContext(DataContext)
-  const totalCart = dataContext ? dataContext.carts.length : 0
+  const { dataContext } = useContext(DataContext);
+  let carts = dataContext ? dataContext.carts : [];
   return (
     <NavbarStyled>
       <ul>
-        <li><NavLink to="/Cilsy">Cilsy</NavLink></li>
-        <li><NavLink to="/category">Category</NavLink></li>
-        <li><NavLink to="/homepage">Homepage</NavLink></li>
-        <li><NavLink to="/">Sign In / Register</NavLink></li>
-        <li><NavLink to="/product">product</NavLink></li>
-        <li><NavLink to="/cart">Cart <span>{totalCart}</span></NavLink></li>
+        <li>
+          <NavLink to="/Cilsy">Cilsy</NavLink>
+        </li>
+        <li>
+          <NavLink to="/category">Category</NavLink>
+        </li>
+        <li>
+          <NavLink to="/homepage">Homepage</NavLink>
+        </li>
+        <li>
+          <NavLink to="/">Sign In / Register</NavLink>
+        </li>
+        <li>
+          <NavLink to="/product">product</NavLink>
+        </li>
+        <li>
+          <NavLink to="/cart">
+            Cart <span>{carts.length}</span>
+          </NavLink>
+        </li>
       </ul>
     </NavbarStyled>
-  )
-}
+  );
+};
 
-// use 
+// use
 const mapStateToProps = (state) => {
   return {
     books: state.bookReducer.books,
@@ -31,5 +45,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-
-export default connect(mapStateToProps)(Navbar)
+export default connect(mapStateToProps)(Navbar);

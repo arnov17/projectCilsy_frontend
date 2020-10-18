@@ -5,24 +5,21 @@ import { withRouter } from "react-router-dom";
 import numeral from "numeral";
 
 import { connect } from "react-redux";
-import { addToCart } from "../../redux/action/globalActionType"
+import { addToCart } from "../../redux/action/globalActionType";
 
 const Book = (props) => {
   const { book, doUpdate, doDelete, addToCart } = props;
   // console.log("PROPS", props);
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({});
-  const bookStatus = book.bookStatus === "FOR_SELL" ? "info" : "warning";
 
   useEffect(() => {
     setData({
       ...book,
-      bookCategory: { ...book.bookCategory },
       id: book.id,
       title: book.title,
       description: book.description,
       price: book.price,
-      bookStatus: book.bookStatus,
       author: book.author,
       publicationDate: new Date(),
     });
@@ -35,6 +32,7 @@ const Book = (props) => {
 
   const handleDelete = (id, refresh) => {
     doDelete(id);
+    window.location.reload();
     // return refresh();
   };
 
@@ -48,11 +46,14 @@ const Book = (props) => {
         <Card.Img
           variant="top"
           src={
-            "https://www.seniberpikir.com/wp-content/uploads/Review-Buku-The-Subtle-Art-of-Not-Giving-a-Fuck-karya-mark-manson-2.jpg"
+            book.thumbnail_url && "http://localhost:6003" + book.thumbnail_url
           }
         />
         <Card.Body>
-          <LinkContainer to={`/admin/setProduct/${book.id}`} style={{ cursor: "pointer" }}>
+          <LinkContainer
+            to={`/admin/UpdateBook/${book.id}`}
+            style={{ cursor: "pointer" }}
+          >
             <Card.Title className="text-primary">{book.title}</Card.Title>
           </LinkContainer>
           {/*Status*/}
@@ -76,7 +77,6 @@ const Book = (props) => {
               </Button>
             </React.Fragment>
           )} */}
-
           {/*Price*/}
           {edit ? (
             <Form.Control
@@ -91,7 +91,6 @@ const Book = (props) => {
               {`Rp ${numeral(book.price).format("0,0")}`}
             </h4>
           )}
-
           {/*Author*/}
           {edit ? (
             <Form.Control
@@ -103,7 +102,6 @@ const Book = (props) => {
           ) : (
             <h6 className="text-dark">Author: {book.author}</h6>
           )}
-
           {/*Synopsis*/}
           {/* <Card.Text className="text-secondary text-justify">
             {edit ? (
@@ -119,8 +117,7 @@ const Book = (props) => {
               book.description.substr(0, 150)
             )}
           </Card.Text> */}
-
-          {edit ? (
+          {/* {edit ? (
             <>
               <Button variant="primary" onClick={() => handleUpdate()}>
                 Save
@@ -150,7 +147,16 @@ const Book = (props) => {
                 Delete
               </Button>
             </>
-          )}
+          )} */}
+          <LinkContainer
+            to={`/admin/UpdateBook/${book.id}`}
+            style={{ cursor: "pointer" }}
+          >
+            <Button variant="success">Edit</Button>
+          </LinkContainer>{" "}
+          <Button variant="danger" onClick={() => handleDelete(book.id)}>
+            Delete
+          </Button>
         </Card.Body>
       </Card>
     </div>

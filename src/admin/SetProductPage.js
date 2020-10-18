@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { getListBook, updateBook, deleteBook } from "../redux/action/globalActionType"
 
 const SetBookPage = (props) => {
-  console.log(props)
+  // console.log(props)
   useEffect(() => {
     props.getBook();
   }, []);
@@ -38,6 +38,7 @@ const SetBookPage = (props) => {
                   book={val}
                   doUpdate={handleUpdate}
                   doDelete={handleDelete}
+                  // refresh={props.getBook()}
                 />
               ))}
           </div>

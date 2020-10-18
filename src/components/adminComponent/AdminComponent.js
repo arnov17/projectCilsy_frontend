@@ -9,7 +9,7 @@ import { addToCart } from "../../redux/action/globalActionType"
 
 const Book = (props) => {
   const { book, doUpdate, doDelete, addToCart } = props;
-  console.log("PROPS", props);
+  // console.log("PROPS", props);
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({});
   const bookStatus = book.bookStatus === "FOR_SELL" ? "info" : "warning";
@@ -20,10 +20,10 @@ const Book = (props) => {
       bookCategory: { ...book.bookCategory },
       id: book.id,
       title: book.title,
-      synopsis: book.synopsis,
+      description: book.description,
       price: book.price,
       bookStatus: book.bookStatus,
-      authorName: book.authorName,
+      author: book.author,
       publicationDate: new Date(),
     });
   }, []);
@@ -33,8 +33,9 @@ const Book = (props) => {
     setEdit(false);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, refresh) => {
     doDelete(id);
+    // return refresh();
   };
 
   const handleForm = (e, formName) => {
@@ -55,7 +56,7 @@ const Book = (props) => {
             <Card.Title className="text-primary">{book.title}</Card.Title>
           </LinkContainer>
           {/*Status*/}
-          {edit ? (
+          {/* {edit ? (
             <Form.Control
               as="select"
               value={data.bookStatus}
@@ -74,7 +75,7 @@ const Book = (props) => {
                 {book.bookStatus}
               </Button>
             </React.Fragment>
-          )}
+          )} */}
 
           {/*Price*/}
           {edit ? (
@@ -96,28 +97,28 @@ const Book = (props) => {
             <Form.Control
               className="mt-2"
               as="input"
-              value={data.authorName}
+              value={data.author}
               onChange={(e) => handleForm(e, "authorName")}
             />
           ) : (
-            <h6 className="text-dark">Author: {book.authorName}</h6>
+            <h6 className="text-dark">Author: {book.author}</h6>
           )}
 
           {/*Synopsis*/}
-          <Card.Text className="text-secondary text-justify">
+          {/* <Card.Text className="text-secondary text-justify">
             {edit ? (
               <Form.Control
                 className="mt-2"
                 as="textarea"
                 aria-label="With textarea"
-                value={data.synopsis}
+                value={data.description}
                 style={{ height: "300px" }}
                 onChange={(e) => handleForm(e, "synopsis")}
               />
             ) : (
-              book.synopsis.substr(0, 150)
+              book.description.substr(0, 150)
             )}
-          </Card.Text>
+          </Card.Text> */}
 
           {edit ? (
             <>

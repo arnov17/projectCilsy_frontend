@@ -29,6 +29,7 @@ import UpdateCategory from "./admin/category/Updatecategory";
 import { Provider } from "react-redux";
 import { DataContext } from "./context/DataContext";
 import store from "./redux/store/store";
+import PrivateRoute from "./components/privateRoute";
 
 const App = () => {
   const [dataContext, setDataContext] = useState(null);
@@ -56,23 +57,27 @@ const App = () => {
 
                 {/* admin */}
                 <Route path="/admin" exact component={adminLogin} />
-                <Route path="/admin/dashboard" exact component={Dashboard} />
-                <Route path="/admin/register" exact component={ResgiterAdmin} />
-                <Route path="/admin/setProduct" component={SetBookPage} />
-                <Route path="/admin/UpdateBook/:id" component={UpdateBook} />
-                <Route path="/admin/addBook" exact component={AddProduct} />
+                <Route path="/admin/register" component={ResgiterAdmin} />
+                <Route path="/admin/dashboard" component={Dashboard} />
+                <PrivateRoute
+                  path="/admin/setProduct"
+                  component={SetBookPage}
+                />
+                <PrivateRoute
+                  path="/admin/UpdateBook/:id"
+                  component={UpdateBook}
+                />
+                <PrivateRoute path="/admin/addBook" component={AddProduct} />
 
-                <Route
+                <PrivateRoute
                   path="/admin/setCategoryPage"
-                  exact
                   component={SetCategoryPage}
                 />
-                <Route
+                <PrivateRoute
                   path="/admin/addCategory"
-                  exact
                   component={AddCategory}
                 />
-                <Route
+                <PrivateRoute
                   path="/admin/UpdateCategory/:id"
                   component={UpdateCategory}
                 />

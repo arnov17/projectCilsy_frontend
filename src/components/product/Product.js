@@ -42,7 +42,7 @@ const Book = (props) => {
   };
 
   return (
-    <div id="cartProduct" className="col-md-4">
+    <div id="cartProduct" className="col-9 mx-auto col-md-6 col-lg-3">
       <Card id="cartBody">
         <Card.Img
           variant="top"

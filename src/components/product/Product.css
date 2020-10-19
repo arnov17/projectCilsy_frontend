@@ -1,15 +1,19 @@
 #cartProduct {
-    margin-top: 10px;
-    margin-bottom: 50px;
+  margin-top: 10px;
+  margin-bottom: 50px;
 }
 
 #cartBody {
-    border: 5px dashed rgb(185, 163, 16);
-    display: inline-block;
-    background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  background-color: #ffffff;
+}
+
+#cartBody:hover {
+  box-shadow: 0 8px 16px 0 rgb(224, 136, 4);
 }
 
 p {
-    font-size: 18px;
-    line-height: 2ex;
+  font-size: 18px;
+  line-height: 2ex;
 }

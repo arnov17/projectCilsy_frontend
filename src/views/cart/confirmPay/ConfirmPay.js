@@ -23,15 +23,22 @@ const PayConfirm = (props) => {
   console.log(storageData);
   useEffect(() => {
     const getDataUser = async () => {
-      const id = storageData.id;
-      console.log(id);
-      const response = await axios.get(`${ENDPOINT}/auth/read/${id}`);
-      // console.log(response);
-      setDataUser({
-        ...dataUser,
-        name: response.data.name,
-        saldo: response.data.saldo,
-      });
+      if (storageData === null) {
+        setDataUser({
+          ...dataUser,
+          saldo: 0,
+        });
+      } else {
+        const id = storageData.id;
+        // console.log(id);
+        const response = await axios.get(`${ENDPOINT}/auth/read/${id}`);
+        // console.log(response);
+        setDataUser({
+          ...dataUser,
+          name: response.data.name,
+          saldo: response.data.saldo,
+        });
+      }
     };
     getDataUser();
   }, []);
@@ -73,14 +80,29 @@ const PayConfirm = (props) => {
       localStorage.removeItem("saveidTransaction");
       props.history.push("/payconfirm/statusPayment");
     }
-
-    // await axios.post(`${ENDPOINT}/order/create`, listOrder, {
-    //   data: { id },
-    //   headers: {
-    //     Authorization: `Bearer ${access_token}`,
-    //   },
-    // });
   };
+
+  const outCart = () => {
+    setDataContext({
+      ...dataContext,
+      carts: [],
+    });
+  };
+
+  // console.log(dataUser);
+  if (!localStorage.getItem("saveUserdata")) {
+    return (
+      <Card>
+        <Card.Body>
+          <Card.Title>You Need To Login/register for transaction.</Card.Title>
+          <Card.Text>Click below to login / Register. Thank you !!</Card.Text>
+          <Link to="/" style={{ cursor: "pointer" }} onClick={outCart}>
+            <Button variant="primary">Here</Button>
+          </Link>
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <div>

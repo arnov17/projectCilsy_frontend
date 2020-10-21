@@ -28,7 +28,7 @@ const AddProduct = (props) => {
     price: "",
     author: "",
     stock: "",
-    category_id: "",
+    category_id: "416695dc-a30b-41cb-9239-d49fd7cd4269",
     // thumbnail_url: FormImage,
   });
   console.log(FormProduct);

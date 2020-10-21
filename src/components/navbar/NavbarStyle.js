@@ -1,12 +1,10 @@
-import styled from 'styled-components'
-
+import styled from "styled-components";
 
 const NavbarStyled = styled.div`
-
   background-color: orange;
-  box-shadow :  0 5px 8px 1px #888888c5;
+  box-shadow: 0 5px 8px 1px #888888c5;
   z-index: 1;
-  // position: fixed;
+  position: fixed;
   right: 0;
   left: 0;
 
@@ -30,7 +28,7 @@ const NavbarStyled = styled.div`
     background: rgb(214, 145, 16);
     color: white;
     font-weight: bold;
-    transition: .2s;
+    transition: 0.2s;
   }
 
   li a {
@@ -46,8 +44,6 @@ const NavbarStyled = styled.div`
     padding: 4px 9px;
     margin-left: 2px;
   }
-`
+`;
 
-export {
-  NavbarStyled
-}
+export { NavbarStyled };
